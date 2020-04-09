@@ -1,0 +1,236 @@
+<template>
+  <b-container fluid class="main">
+    <div id="cover">
+    <span>
+
+      <!-- NAVBAR KTÓRY WYŚWIETLA SIĘ TYLKO DLA BREAKPOINTÓW OD MEDIUM W GÓRE - POKAZUJE TYLKO IKONĘ I NAZWĘ  -->
+
+      <div class="d-none d-md-block">
+        <div>
+          <b-navbar toggleable="lg">
+            <b-navbar-brand href="#">
+              <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
+            </b-navbar-brand>
+            <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
+          </b-navbar>
+        </div>
+      </div>
+
+      <!-- ROZWIJANY NAVBAR, KTÓRY POJAWIA SIĘ DLA BREAKPOINTA MEDIUM I NIŻEJ, ZNAJDUJE SIĘ W NIM LOGOWANIE I REJESTRACJA -->
+
+      <div class="d-md-none">
+        <b-navbar toggleable>
+          <b-navbar-brand href="#">
+            <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
+          </b-navbar-brand>
+          <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
+
+          <b-navbar-toggle target="navbar-toggle-collapse" class="text-light">
+            <b-icon icon="list"></b-icon>
+          </b-navbar-toggle>
+
+          <b-collapse id="navbar-toggle-collapse" is-nav>
+            <b-navbar-nav class="ml-auto">
+              <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
+                <div id="choice">
+                  <b-button class="button-select" variant="outline-dark" @click="clickLog()" v-bind:class="{ active : clickedLog }">LOG IN</b-button>
+                  <b-button class="button-select" variant="outline-dark" @click="clickSign()" v-bind:class="{ active : clickedSign }">SIGN UP</b-button>
+                </div>
+
+                <div class="form-log" v-if="clickedLog == true">
+                  <b-form-group label="Email address:" label-for="email">
+                    <b-form-input id="email"></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group label="Password:" label-for="password">
+                    <b-form-input id="password"></b-form-input>
+                  </b-form-group>
+
+                  <b-button variant="outline-light">Log In</b-button>
+                </div>
+
+                <div class="form-sign" v-if="clickedSign == true">
+                  <b-form-group label="Username:" label-for="username-sign">
+                    <b-form-input id="username-sign"></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group label="Email address:" label-for="email-sign" description="We'll never share your email with anyone else.">
+                    <b-form-input id="email-sign"></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group label="Password:" label-for="password-sign" description="Minimum 8 characters long, at least one number.">
+                    <b-form-input id="password-sign"></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group label="Repeat password:" label-for="password-sign-r">
+                    <b-form-input id="password-sign-r"></b-form-input>
+                  </b-form-group>
+
+                  <b-button variant="outline-light">Sign Up</b-button>
+                </div>
+              </b-col>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+
+        <!-- TU JEST OPIS STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
+
+        <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
+          <h1>Film Nation</h1>
+          <p>One of the most, if not most popular online databases in regards to entertainment media, the Internet Movie Database, better known as IMDB is your one stop shop for all your movie related needs. Launched back in October 1990, IMDB serves as an informational database for everything related to film, television and video games. The site takes it a step further by providing information on just about every possible known actor and director which will include short bios and of course a list of films they were in, produced or directed. Television appearances are also catalogued. Information on production staff, voice actors,and film/television/video game characters can also be accessed for further information as well. The content on IMDB is massive with over 2 million titles, 5 million plus accessible databases about character personalities and 40 million registered users, there is something for everyone. From trivia, quotes, news related to movies, television and celebrities, movie trailers, galleries and various other lists and interactive sections, IMDB really is the place you should visit first if you’re interested in what’s going on in the film and television industry.</p>
+        </b-col>
+      </div>
+    </span>
+
+    <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - REJESTRACJA/LOGOWANIE + OPIS SĄ WYŚWIETLONE OBOK SIEBIE -->
+
+    <b-row class="d-none d-md-inline-flex">
+      <b-col class="main-form " xs="12" sm="12" md="4" lg="4" xl="4">
+        <div id="choice">
+          <b-button class="button-select" variant="outline-dark" @click="clickLog()" v-bind:class="{ active : clickedLog }">LOG IN</b-button>
+          <b-button class="button-select" variant="outline-dark" @click="clickSign()" v-bind:class="{ active : clickedSign }">SIGN UP</b-button>
+        </div>
+
+        <div class="form-log" v-if="clickedLog == true">
+          <b-form-group label="Email address:" label-for="email">
+            <b-form-input id="email"></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Password:" label-for="password">
+            <b-form-input id="password"></b-form-input>
+          </b-form-group>
+
+          <b-button variant="outline-light">Log In</b-button>
+        </div>
+
+        <div class="form-sign" v-if="clickedSign == true">
+          <b-form-group label="Username:" label-for="username-sign">
+            <b-form-input id="username-sign"></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Email address:" label-for="email-sign" description="We'll never share your email with anyone else.">
+            <b-form-input id="email-sign"></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Password:" label-for="password-sign" description="Minimum 8 characters long, at least one number.">
+            <b-form-input id="password-sign"></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Repeat password:" label-for="password-sign-r">
+            <b-form-input id="password-sign-r"></b-form-input>
+          </b-form-group>
+
+          <b-button variant="outline-light">Sign Up</b-button>
+        </div>
+      </b-col>
+
+      <b-col class="main-form form-desc" xs="12" sm="12" md="6" lg="6" xl="6">
+        <h1>Film Nation</h1>
+        <p>One of the most, if not most popular online databases in regards to entertainment media, the Internet Movie Database, better known as IMDB is your one stop shop for all your movie related needs. Launched back in October 1990, IMDB serves as an informational database for everything related to film, television and video games. The site takes it a step further by providing information on just about every possible known actor and director which will include short bios and of course a list of films they were in, produced or directed. Television appearances are also catalogued. Information on production staff, voice actors,and film/television/video game characters can also be accessed for further information as well. The content on IMDB is massive with over 2 million titles, 5 million plus accessible databases about character personalities and 40 million registered users, there is something for everyone. From trivia, quotes, news related to movies, television and celebrities, movie trailers, galleries and various other lists and interactive sections, IMDB really is the place you should visit first if you’re interested in what’s going on in the film and television industry.</p>
+      </b-col>
+
+    </b-row>
+    </div>
+  </b-container>
+</template>
+
+<script>
+export default {
+  name: "HomeScreen",
+  data() {
+    return {
+      appTitle: "Film Nation",
+      clickedLog: true,
+      clickedSign: false
+    };
+  },
+  methods: {
+    clickLog() {
+      this.clickedLog = true,
+      this.clickedSign = false
+    },
+    clickSign() {
+      this.clickedLog = false,
+      this.clickedSign = true
+    }
+  }
+};
+</script>
+
+<style scoped>
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+h1, p {
+  color: white;
+}
+
+.navbar {
+  color: white!important;
+}
+
+.main { 
+  background-color: #343a40;
+  background-color: black;
+  background-position: bottom;
+  background-size: center;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+}
+
+.main-form {
+  position: relative;
+  align-content: flex-start;
+  margin: 0;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
+#cover {
+  min-width: 100%;
+  min-height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.form-log, .form-sign, .form-desc {
+  background-color: rgba(255,255,255,0.01);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#choice {
+  margin: auto;
+  text-align: center;
+  width: 100%;
+}
+
+#icon_film {
+  width: 30px;
+  height: 30px;
+}
+
+.button-select {
+  color: grey;
+}
+
+button{
+  color: white;
+  margin-top: 10px;
+}
+
+button:focus {
+  outline: none;
+}
+
+#icon_film_white {
+  width: 30px;
+  height: 30px;
+  filter: invert(99%) sepia(13%) saturate(121%) hue-rotate(299deg)
+    brightness(116%) contrast(100%);
+}
+</style>

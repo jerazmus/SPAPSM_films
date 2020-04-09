@@ -1,14 +1,16 @@
 <template>
-  <AppNavi></AppNavi>
+  <div id="app">
+    <HomeScreen></HomeScreen>
+  </div>
 </template>
 
 <script>
-import AppNavi from '@/components/AppNavi'
+import HomeScreen from '@/components/HomeScreen'
 
 export default {
   name: 'App',
   components: {
-    AppNavi
+    HomeScreen
   }
 }
 </script>
