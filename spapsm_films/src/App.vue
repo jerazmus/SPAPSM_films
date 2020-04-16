@@ -1,20 +1,9 @@
 <template>
-  <div id="app">
-    <HomeScreen></HomeScreen>
+  <div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HomeScreen from '@/components/HomeScreen'
-
-export default {
-  name: 'App',
-  components: {
-    HomeScreen
-  }
-}
+export default {};
 </script>
-
-<style>
-
-</style>
