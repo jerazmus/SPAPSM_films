@@ -52,10 +52,20 @@
                     </b-form-group>
 
                     <b-form-group label="Password:" label-for="password">
-                      <b-form-input id="password" v-model="form_login.password"></b-form-input>
+                      <b-form-input id="password" type="password" v-model="form_login.password"></b-form-input>
                     </b-form-group>
 
                     <b-button @click="login" variant="outline-light">Log In</b-button>
+                    <div id="choice">
+                      <br />or Sign In with
+                      <br />
+                      <button @click="socialGoogleLogin" class="social-button">
+                        <img alt="Google Logo" src="../assets/google_icon.png" />
+                      </button>
+                      <button @click="socialFacebookLogin" class="social-button">
+                        <img alt="FB Logo" src="../assets/facebook_icon.png" />
+                      </button>
+                    </div>
                   </div>
                   <!-- rejestracja -->
                   <div class="form-sign" v-if="clickedSign == true">
@@ -77,11 +87,11 @@
                         label-for="password-sign"
                         description="Minimum 8 characters long, at least one number."
                       >
-                        <b-form-input id="password-sign" v-model="form_register.password"></b-form-input>
+                        <b-form-input id="password-sign" type="password" v-model="form_register.password"></b-form-input>
                       </b-form-group>
 
                       <b-form-group label="Repeat password:" label-for="password-sign-r">
-                        <b-form-input id="password-sign-r" v-model="form_register.pwd_check"></b-form-input>
+                        <b-form-input id="password-sign-r" type="password" v-model="form_register.pwd_check"></b-form-input>
                       </b-form-group>
 
                       <b-button type="submit" variant="outline-light">Sign Up</b-button>
@@ -126,10 +136,20 @@
             </b-form-group>
 
             <b-form-group label="Password:" label-for="password">
-              <b-form-input id="password" v-model="form_login.password"></b-form-input>
+              <b-form-input id="password" type="password" v-model="form_login.password"></b-form-input>
             </b-form-group>
 
             <b-button @click="login" variant="outline-light">Log In</b-button>
+            <div id="choice">
+              <br />or Sign In with
+              <br />
+              <button @click="socialGoogleLogin" class="social-button">
+                <img alt="Google Logo" src="../assets/google_icon.png" />
+              </button>
+              <button @click="socialFacebookLogin" class="social-button">
+                <img alt="FB Logo" src="../assets/facebook_icon.png" />
+              </button>
+            </div>
           </div>
 
           <!-- rejestracja -->
@@ -152,11 +172,11 @@
                 label-for="password-sign"
                 description="Minimum 8 characters long, at least one number."
               >
-                <b-form-input id="password-sign" v-model="form_register.password"></b-form-input>
+                <b-form-input id="password-sign" type="password" v-model="form_register.password"></b-form-input>
               </b-form-group>
 
               <b-form-group label="Repeat password:" label-for="password-sign-r">
-                <b-form-input id="password-sign-r" v-model="form_register.pwd_check"></b-form-input>
+                <b-form-input id="password-sign-r" type="password" v-model="form_register.pwd_check"></b-form-input>
               </b-form-group>
 
               <b-button type="submit" variant="outline-light">Sign Up</b-button>
@@ -219,7 +239,15 @@ export default {
                 displayName: this.form_register.username
               })
               .then(() => {
-                this.$router.replace({ name: "home" });
+                alert('Accout has been created. Please log in.')
+                // tu mozna dac przekierowanie po stworzeniu konta
+                // this.$router.replace({ name: "" });
+
+                // zerowanie formularza
+                this.form_register.username = '',
+                this.form_register.email = '',
+                this.form_register.password = '',
+                this.form_register.pwd_check = ''
               });
           })
           .catch(err => {
@@ -240,8 +268,38 @@ export default {
           this.$router.replace({ path: "/dashboard" });
         })
         .catch(err => {
-          alert("wrong credentials")
+          alert("wrong credentials");
           this.error = err.message;
+        });
+    },
+    socialGoogleLogin() {
+      const ggl = new firebase.auth.GoogleAuthProvider();
+
+      firebase
+        .auth()
+        .signInWithPopup(ggl)
+        .then(user => {
+          console.log(user);
+          alert(`Logged as ${user.user.email}`);
+          this.$router.push({ path: "/dashboard" });
+        })
+        .catch(err => {
+          alert("error: " + err.message);
+        });
+    },
+    socialFacebookLogin() {
+      const ggl = new firebase.auth.FacebookAuthProvider();
+
+      firebase
+        .auth()
+        .signInWithPopup(ggl)
+        .then(user => {
+          console.log(user);
+          alert(`Logged as ${user.user.email}`);
+          this.$router.push({ path: "/dashboard" });
+        })
+        .catch(err => {
+          alert("error: " + err.message);
         });
     }
   }
@@ -326,5 +384,23 @@ button:focus {
   height: 30px;
   filter: invert(99%) sepia(13%) saturate(121%) hue-rotate(299deg)
     brightness(116%) contrast(100%);
+}
+.social-button {
+  width: 75px;
+  padding: 10px;
+}
+.social-button:active {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.social-button img {
+  width: 100%;
+  opacity: 0.5;
+}
+hr {
+  background-color: white;
+  height: 2px;
+  border: 0;
+  width: 50%;
+  margin: 10px 25% 10px 25%;
 }
 </style>
