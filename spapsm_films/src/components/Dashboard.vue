@@ -1,9 +1,106 @@
- 
 <template>
-  <!-- to bedzie nasz home page po zalogowaniu : ) -->
-  <div>
-    <b-button variant="dark" @click.prevent="signout">Sign Out</b-button>
-  </div>
+  <b-container fluid class="main">
+      <span>
+        <!-- NAVBAR KTÓRY WYŚWIETLA SIĘ TYLKO DLA BREAKPOINTÓW OD MEDIUM W GÓRE - POKAZUJE IKONĘ, NAZWĘ I MENU UŻYTKOWNIKA -->
+
+        <div class="d-none d-md-block">
+          <div>
+            <b-navbar toggleable="lg">
+              <b-navbar-brand href="#">
+                <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
+              </b-navbar-brand>
+              <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
+              <b-navbar-nav>
+                <b-nav-item @click.prevent="search">Search</b-nav-item>
+                <b-nav-item href="#">Top movies</b-nav-item>
+                <b-nav-item href="#">Randomizer</b-nav-item>
+                <b-nav-item @click.prevent="dashboard">My dashboard</b-nav-item>
+                <b-nav-item href="#">My account</b-nav-item>
+                <b-nav-item @click.prevent="signout">Log Out</b-nav-item>
+              </b-navbar-nav>
+            </b-navbar>
+          </div>
+        </div>
+
+        <!-- ROZWIJANY NAVBAR, KTÓRY POJAWIA SIĘ DLA BREAKPOINTA MEDIUM I NIŻEJ, ZNADUJE SIE TU MENU UŻYTKOWNIKA -->
+
+        <div class="d-md-none home-container">
+          <b-navbar toggleable sticky>
+            <b-navbar-brand href="#">
+              <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
+            </b-navbar-brand>
+            <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
+
+            <b-navbar-toggle target="navbar-toggle-collapse" class="text-light">
+              <b-icon icon="list"></b-icon>
+            </b-navbar-toggle>
+
+            <b-collapse id="navbar-toggle-collapse" is-nav>
+              <b-dropdown-item @click.prevent="search">Search</b-dropdown-item>
+              <b-dropdown-item>Top movies</b-dropdown-item>
+              <b-dropdown-item>Randomizer</b-dropdown-item>
+              <b-dropdown-item @click.prevent="dashboard">My dashboard</b-dropdown-item>
+              <b-dropdown-item>My account</b-dropdown-item>
+              <b-dropdown-item @click.prevent="signout">Log Out</b-dropdown-item>
+            </b-collapse>
+          </b-navbar>
+
+          <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
+
+          <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
+            <h1>Hello, USERNAME</h1>
+            <h2>Favorite movies</h2>
+            <b-row>
+              <b-col class="favorite-mobile">
+                <div class="sample-movie-mobile"></div>
+                <div class="sample-movie-mobile"></div>
+                <div class="sample-movie-mobile"></div>
+                <div class="sample-movie-mobile"></div>
+              </b-col>
+            </b-row>
+                <h2>Recently watched</h2>
+            <b-row>
+              <b-col class="watched-mobile">
+                <div class="sample-movie-mobile"></div>
+                <div class="sample-movie-mobile"></div>
+                <div class="sample-movie-mobile"></div>
+                <div class="sample-movie-mobile"></div>
+              </b-col>
+            </b-row>
+          </b-col>
+        </div>
+      </span>
+
+      <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - DASHBOARD UZYTKOWNIKA -->
+
+      <b-row class="d-none d-md-flex dashboard-container">
+        <b-col>
+          <h1>Hello, USERNAME</h1>
+          <b-row class="d-none d-md-flex dashboard-container-favorite">
+            <b-col xs="12" sm="12" md="12" lg="12" xl="12">
+              <h2>Favorite movies</h2>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+            </b-col>
+          </b-row>
+          <b-row class="d-none d-md-flex dashboard-container-watched">
+            <b-col xs="12" sm="12" md="12" lg="12" xl="12">
+              <h2>Recently watched</h2>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+              <div class="sample-movie"></div>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -11,23 +108,81 @@ import { mapGetters } from "vuex";
 import firebase from "firebase";
 
 export default {
+  data() {
+    return {
+      appTitle: "Film Nation",
+    }
+  },
   computed: {
     ...mapGetters({
       user: "user"
     })
   },
   methods: {
-    signout() {
+    signout() { // metoda navbara
       firebase
         .auth()
         .signOut()
         .then(() => {
           this.$router.push("/")
         });
+    },
+    search() { // metoda navbara
+        this.$router.push("/search")
+    },
+    dashboard() { // metoda navbara
+        this.$router.push("/dashboard")
     }
   }
 };
 </script>
 
-<style scoped>
+<style>
+.dashboard-container {
+  text-align: left;
+  padding-left: 5%;
+  margin-top: 50px;
+  min-height: 80vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+.sample-movie {
+  width: 200px;
+  height: 250px;
+  background-color: white;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.sample-movie-mobile {
+  width: 150px;
+  height: 200px;
+  background-color: white;
+  display: inline-block;
+  margin-left: auto;
+  margin: 2px;
+}
+
+.favorite-mobile, .watched-mobile {
+  text-align: center;
+}
+
+.navbar {
+  background-color: black;
+  color: white;
+}
+
+#navbar-toggle-collapse {
+  color: white !important;
+  list-style: none;
+  z-index: 10;
+}
+
+.dropdown-item {
+  color: white;
+  text-align: right;
+  font-size: 20px;
+}
 </style>

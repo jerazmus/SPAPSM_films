@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomeScreen from '../components/HomeScreen'
 import Dashboard from '../components/Dashboard'
+import Search from '../components/Search'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -22,7 +23,15 @@ const router = new Router({
             path: '/',
             name: 'home',
             component: HomeScreen
-        }
+        },
+        {
+          path: '/search',
+          name: 'Search',
+          component: Search,
+          meta: {
+            requiresAuth: true
+          }
+      }
     ]
 })
 
