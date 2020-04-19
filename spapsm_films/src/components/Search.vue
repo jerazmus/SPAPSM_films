@@ -12,10 +12,10 @@
               <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
               <b-navbar-nav>
                 <b-nav-item @click.prevent="search">Search</b-nav-item>
-                <b-nav-item href="#">Top movies</b-nav-item>
-                <b-nav-item href="#">Randomizer</b-nav-item>
+                <b-nav-item @click.prevent="topMovies">Top movies</b-nav-item>
+                <b-nav-item @click.prevent="randomizer">Randomizer</b-nav-item>
                 <b-nav-item @click.prevent="dashboard">My dashboard</b-nav-item>
-                <b-nav-item href="#">My account</b-nav-item>
+                <b-nav-item @click.prevent="account">My account</b-nav-item>
                 <b-nav-item @click.prevent="signout">Log Out</b-nav-item>
               </b-navbar-nav>
             </b-navbar>
@@ -37,10 +37,10 @@
 
             <b-collapse id="navbar-toggle-collapse" is-nav>
               <b-dropdown-item @click.prevent="search">Search</b-dropdown-item>
-              <b-dropdown-item>Top movies</b-dropdown-item>
-              <b-dropdown-item>Randomizer</b-dropdown-item>
+              <b-dropdown-item @click.prevent="topMovies">Top movies</b-dropdown-item>
+              <b-dropdown-item @click.prevent="randomizer">Randomizer</b-dropdown-item>
               <b-dropdown-item @click.prevent="dashboard">My dashboard</b-dropdown-item>
-              <b-dropdown-item>My account</b-dropdown-item>
+              <b-dropdown-item @click.prevent="account">My account</b-dropdown-item>
               <b-dropdown-item @click.prevent="signout">Log Out</b-dropdown-item>
             </b-collapse>
           </b-navbar>
@@ -179,6 +179,15 @@ export default {
     },
     dashboard() { // metoda navbara
         this.$router.push("/dashboard")
+    },
+    topMovies() {
+        this.$router.push("/top") // metoda navbara
+    },
+    randomizer() { // metoda navbara
+        this.$router.push("/random")
+    },
+    account() { // metoda navbara
+        this.$router.push("/account")
     },
     searchInput() { // metoda KOMPONENTU SEARCH!
         this.searchTextInput = ""

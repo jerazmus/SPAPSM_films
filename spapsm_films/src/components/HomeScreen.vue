@@ -59,7 +59,7 @@
               </b-form-group>
 
               <b-form-group label="Password:" label-for="password">
-                <b-form-input id="password" type="password" v-model="form_login.password"></b-form-input>
+                <b-form-input id="password" type="password" v-model="form_login.password" v-on:keyup.enter="login"></b-form-input>
               </b-form-group>
 
               <b-button @click="login" variant="outline-light">Log In</b-button>
@@ -67,10 +67,10 @@
                 <br />or Sign In with
                 <br />
                 <button @click="socialGoogleLogin" class="social-button">
-                  <img alt="Google Logo" src="../assets/google_icon.png" />
+                  <img alt="Google Logo" src="../assets/google.png" />
                 </button>
                 <button @click="socialFacebookLogin" class="social-button">
-                  <img alt="FB Logo" src="../assets/facebook_icon.png" />
+                  <img alt="FB Logo" src="../assets/facebook.png" />
                 </button>
               </div>
             </div>
@@ -133,6 +133,7 @@
               v-bind:class="{ active : clickedSign }"
             >SIGN UP</b-button>
           </div>
+
           <!-- logowanie -->
           <div class="form-log" v-if="clickedLog == true">
             <b-form-group label="Email address:" label-for="email">
@@ -140,7 +141,7 @@
             </b-form-group>
 
             <b-form-group label="Password:" label-for="password">
-              <b-form-input id="password" type="password" v-model="form_login.password"></b-form-input>
+              <b-form-input id="password" type="password" v-model="form_login.password" v-on:keyup.enter="login"></b-form-input>
             </b-form-group>
 
             <b-button @click="login" variant="outline-light">Log In</b-button>
@@ -148,10 +149,10 @@
               <br />or Sign In with
               <br />
               <button @click="socialGoogleLogin" class="social-button">
-                <img alt="Google Logo" src="../assets/google_icon.png" />
+                <img alt="Google Logo" src="../assets/google.png" />
               </button>
               <button @click="socialFacebookLogin" class="social-button">
-                <img alt="FB Logo" src="../assets/facebook_icon.png" />
+                <img alt="FB Logo" src="../assets/facebook.png" />
               </button>
             </div>
           </div>
@@ -342,9 +343,9 @@ p,
 }
 
 .home-container {
-  margin-top: 50px;
-  min-height: 80vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  margin: 0;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .main-form {
@@ -424,14 +425,13 @@ button:focus {
 }
 .social-button {
   width: 75px;
-  padding: 10px;
 }
 .social-button:active {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  outline: none;
 }
 .social-button img {
   width: 100%;
-  opacity: 0.5;
 }
 hr {
   background-color: white;
@@ -454,10 +454,5 @@ hr {
   padding: 0;
 }
 
-.home-container {
-  margin: 0;
-  min-height: 100vh;
-  background-color: rgba(0, 0, 0, 0.7);
-}
 }
 </style>
