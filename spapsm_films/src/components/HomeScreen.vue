@@ -1,6 +1,5 @@
 <template>
   <b-container fluid class="main">
-    <div id="cover">
       <span>
         <!-- NAVBAR KTÓRY WYŚWIETLA SIĘ TYLKO DLA BREAKPOINTÓW OD MEDIUM W GÓRE - POKAZUJE TYLKO IKONĘ I NAZWĘ  -->
 
@@ -15,9 +14,9 @@
           </div>
         </div>
 
-        <!-- ROZWIJANY NAVBAR, KTÓRY POJAWIA SIĘ DLA BREAKPOINTA MEDIUM I NIŻEJ, ZNAJDUJE SIĘ W NIM LOGOWANIE I REJESTRACJA -->
+        <!-- ROZWIJANY NAVBAR, KTÓRY POJAWIA SIĘ DLA BREAKPOINTA MEDIUM I NIŻEJ, NIEUŻYWANY -->
 
-        <div class="d-md-none">
+        <div class="d-md-none home-container">
           <b-navbar toggleable>
             <b-navbar-brand href="#">
               <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
@@ -25,95 +24,100 @@
             <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
 
             <b-navbar-toggle target="navbar-toggle-collapse" class="text-light">
-              <b-icon icon="list"></b-icon>
             </b-navbar-toggle>
 
             <b-collapse id="navbar-toggle-collapse" is-nav>
-              <b-navbar-nav class="ml-auto">
-                <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
-                  <div id="choice">
-                    <b-button
-                      class="button-select"
-                      variant="outline-dark"
-                      @click="clickLog()"
-                      v-bind:class="{ active : clickedLog }"
-                    >LOG IN</b-button>
-                    <b-button
-                      class="button-select"
-                      variant="outline-dark"
-                      @click="clickSign()"
-                      v-bind:class="{ active : clickedSign }"
-                    >SIGN UP</b-button>
-                  </div>
-                  <!-- logowanie -->
-                  <div class="form-log" v-if="clickedLog == true">
-                    <b-form-group label="Email address:" label-for="email">
-                      <b-form-input id="email" v-model="form_login.email"></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group label="Password:" label-for="password">
-                      <b-form-input id="password" type="password" v-model="form_login.password"></b-form-input>
-                    </b-form-group>
-
-                    <b-button @click="login" variant="outline-light">Log In</b-button>
-                    <div id="choice">
-                      <br />or Sign In with
-                      <br />
-                      <button @click="socialGoogleLogin" class="social-button">
-                        <img alt="Google Logo" src="../assets/google_icon.png" />
-                      </button>
-                      <button @click="socialFacebookLogin" class="social-button">
-                        <img alt="FB Logo" src="../assets/facebook_icon.png" />
-                      </button>
-                    </div>
-                  </div>
-                  <!-- rejestracja -->
-                  <div class="form-sign" v-if="clickedSign == true">
-                    <form action="#" @submit.prevent="submit">
-                      <b-form-group label="Username:" label-for="username-sign">
-                        <b-form-input id="username-sign" v-model="form_register.username"></b-form-input>
-                      </b-form-group>
-
-                      <b-form-group
-                        label="Email address:"
-                        label-for="email-sign"
-                        description="We'll never share your email with anyone else."
-                      >
-                        <b-form-input id="email-sign" v-model="form_register.email"></b-form-input>
-                      </b-form-group>
-
-                      <b-form-group
-                        label="Password:"
-                        label-for="password-sign"
-                        description="Minimum 8 characters long, at least one number."
-                      >
-                        <b-form-input id="password-sign" type="password" v-model="form_register.password"></b-form-input>
-                      </b-form-group>
-
-                      <b-form-group label="Repeat password:" label-for="password-sign-r">
-                        <b-form-input id="password-sign-r" type="password" v-model="form_register.pwd_check"></b-form-input>
-                      </b-form-group>
-
-                      <b-button type="submit" variant="outline-light">Sign Up</b-button>
-                    </form>
-                  </div>
-                </b-col>
-              </b-navbar-nav>
             </b-collapse>
           </b-navbar>
 
-          <!-- TU JEST OPIS STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
+          <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
 
           <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
-            <h1>Film Nation</h1>
-            <p>One of the most, if not most popular online databases in regards to entertainment media, the Internet Movie Database, better known as IMDB is your one stop shop for all your movie related needs. Launched back in October 1990, IMDB serves as an informational database for everything related to film, television and video games. The site takes it a step further by providing information on just about every possible known actor and director which will include short bios and of course a list of films they were in, produced or directed. Television appearances are also catalogued. Information on production staff, voice actors,and film/television/video game characters can also be accessed for further information as well. The content on IMDB is massive with over 2 million titles, 5 million plus accessible databases about character personalities and 40 million registered users, there is something for everyone. From trivia, quotes, news related to movies, television and celebrities, movie trailers, galleries and various other lists and interactive sections, IMDB really is the place you should visit first if you’re interested in what’s going on in the film and television industry.</p>
+
+            <!-- WYBÓR LOGOWANIE/REJESTRACJA -->
+
+            <div id="choice">
+              <b-button
+                class="button-select"
+                variant="outline-dark"
+                @click="clickLog()"
+                v-bind:class="{ active : clickedLog }"
+              >LOG IN</b-button>
+
+              <b-button
+                class="button-select"
+                variant="outline-dark"
+                @click="clickSign()"
+                v-bind:class="{ active : clickedSign }"
+              >SIGN UP</b-button>
+            </div>
+
+                  <!-- logowanie -->
+            <div class="form-log" v-if="clickedLog == true">
+              <b-form-group label="Email address:" label-for="email">
+                <b-form-input id="email" v-model="form_login.email"></b-form-input>
+              </b-form-group>
+
+              <b-form-group label="Password:" label-for="password">
+                <b-form-input id="password" type="password" v-model="form_login.password" v-on:keyup.enter="login"></b-form-input>
+              </b-form-group>
+
+              <b-button @click="login" variant="outline-light">Log In</b-button>
+              <div id="choice">
+                <br />or Sign In with
+                <br />
+                <button @click="socialGoogleLogin" class="social-button">
+                  <img alt="Google Logo" src="../assets/google.png" />
+                </button>
+                <button @click="socialFacebookLogin" class="social-button">
+                  <img alt="FB Logo" src="../assets/facebook.png" />
+                </button>
+              </div>
+            </div>
+                  
+                  <!-- rejestracja -->
+            <div class="form-sign" v-if="clickedSign == true">
+              <form action="#" @submit.prevent="submit">
+                <b-form-group label="Username:" label-for="username-sign">
+                  <b-form-input id="username-sign" v-model="form_register.username"></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="Email address:"
+                  label-for="email-sign"
+                  description="We'll never share your email with anyone else."
+                >
+                  <b-form-input id="email-sign" v-model="form_register.email"></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="Password:"
+                  label-for="password-sign"
+                  description="Minimum 8 characters long, at least one number."
+                >
+                  <b-form-input id="password-sign" type="password" v-model="form_register.password"></b-form-input>
+                </b-form-group>
+
+                <b-form-group label="Repeat password:" label-for="password-sign-r">
+                  <b-form-input id="password-sign-r" type="password" v-model="form_register.pwd_check"></b-form-input>
+                </b-form-group>
+
+                <b-button type="submit" variant="outline-light">Sign Up</b-button>
+              </form>
+            </div>
           </b-col>
         </div>
       </span>
 
       <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - REJESTRACJA/LOGOWANIE + OPIS SĄ WYŚWIETLONE OBOK SIEBIE -->
 
-      <b-row class="d-none d-md-inline-flex">
+      <b-row class="d-none d-md-flex home-container">
+        <b-col class="main-form form-desc" xs="12" sm="12" md="4" lg="4" xl="4">
+          <h4 class="welcome">WELCOME TO</h4>
+          <h1 class="separator">FILM NATION</h1>
+          <p>Film Nation offers you the latest insight into world of movies and world's premieres. Find your favorite movies, learn about new ones, discover the neverending joy of watching them with friends, family or simply by yourself!</p>
+        </b-col>
+
         <b-col class="main-form" xs="12" sm="12" md="4" lg="4" xl="4">
           <div id="choice">
             <b-button
@@ -129,6 +133,7 @@
               v-bind:class="{ active : clickedSign }"
             >SIGN UP</b-button>
           </div>
+
           <!-- logowanie -->
           <div class="form-log" v-if="clickedLog == true">
             <b-form-group label="Email address:" label-for="email">
@@ -136,7 +141,7 @@
             </b-form-group>
 
             <b-form-group label="Password:" label-for="password">
-              <b-form-input id="password" type="password" v-model="form_login.password"></b-form-input>
+              <b-form-input id="password" type="password" v-model="form_login.password" v-on:keyup.enter="login"></b-form-input>
             </b-form-group>
 
             <b-button @click="login" variant="outline-light">Log In</b-button>
@@ -144,10 +149,10 @@
               <br />or Sign In with
               <br />
               <button @click="socialGoogleLogin" class="social-button">
-                <img alt="Google Logo" src="../assets/google_icon.png" />
+                <img alt="Google Logo" src="../assets/google.png" />
               </button>
               <button @click="socialFacebookLogin" class="social-button">
-                <img alt="FB Logo" src="../assets/facebook_icon.png" />
+                <img alt="FB Logo" src="../assets/facebook.png" />
               </button>
             </div>
           </div>
@@ -183,13 +188,7 @@
             </form>
           </div>
         </b-col>
-
-        <b-col class="main-form form-desc" xs="12" sm="12" md="6" lg="6" xl="6">
-          <h1>Film Nation</h1>
-          <p>One of the most, if not most popular online databases in regards to entertainment media, the Internet Movie Database, better known as IMDB is your one stop shop for all your movie related needs. Launched back in October 1990, IMDB serves as an informational database for everything related to film, television and video games. The site takes it a step further by providing information on just about every possible known actor and director which will include short bios and of course a list of films they were in, produced or directed. Television appearances are also catalogued. Information on production staff, voice actors,and film/television/video game characters can also be accessed for further information as well. The content on IMDB is massive with over 2 million titles, 5 million plus accessible databases about character personalities and 40 million registered users, there is something for everyone. From trivia, quotes, news related to movies, television and celebrities, movie trailers, galleries and various other lists and interactive sections, IMDB really is the place you should visit first if you’re interested in what’s going on in the film and television industry.</p>
-        </b-col>
       </b-row>
-    </div>
   </b-container>
 </template>
 
@@ -313,46 +312,84 @@ export default {
 }
 
 h1,
-p {
-  color: white;
+p,
+.nav-link {
+  color: white !important;
+}
+
+.nav-link:hover {
+  color: grey !important;
 }
 
 .navbar {
   color: white !important;
+  font-family: 'Fira Sans Condensed', sans-serif !important;
+}
+
+.navbar-nav {
+  font-family: 'Fira Sans Condensed', sans-serif;
+  margin-left: auto;
 }
 
 .main {
   background-color: #343a40;
   background-color: black;
+  background-image: url("../assets/cinema2.jpg");
   background-position: bottom;
   background-size: center;
+  background-size: cover;
   min-height: 100vh;
-  width: 100vw;
   margin: 0;
+}
+
+.home-container {
+  margin: 0;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .main-form {
   position: relative;
-  align-content: flex-start;
   margin: 0;
   margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
   color: white;
+  font-family: 'Fira Sans Condensed', sans-serif;
 }
 
-#cover {
-  min-width: 100%;
-  min-height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+.form-desc {
+  text-align: center;
+  margin-top: 200px;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  font-weight: 300;
+  font-size: 20px;
 }
 
 .form-log,
-.form-sign,
-.form-desc {
-  background-color: rgba(255, 255, 255, 0.01);
+.form-sign {
+  background-color: rgba(255, 255, 255, 0);
   padding: 10px;
   border-radius: 10px;
+}
+
+.form-log {
+  margin-top: 70px;
+}
+
+.welcome {
+  font-weight: 300;
+  font-size: 30px;
+}
+
+.separator {
+  border-bottom: 1px solid white;
+  width: 50%;
+  margin: auto;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  font-weight: 400;
+  font-size: 50px;
 }
 
 #choice {
@@ -373,6 +410,7 @@ p {
 button {
   color: white;
   margin-top: 10px;
+  margin-right: 1px;
 }
 
 button:focus {
@@ -387,14 +425,13 @@ button:focus {
 }
 .social-button {
   width: 75px;
-  padding: 10px;
 }
 .social-button:active {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  outline: none;
 }
 .social-button img {
   width: 100%;
-  opacity: 0.5;
 }
 hr {
   background-color: white;
@@ -402,5 +439,20 @@ hr {
   border: 0;
   width: 50%;
   margin: 10px 25% 10px 25%;
+}
+
+@media only screen and (max-width: 768px) {
+.main {
+  background-image: none;
+}
+
+.main-form {
+  margin-top: 5%;
+}
+
+.container-fluid {
+  padding: 0;
+}
+
 }
 </style>

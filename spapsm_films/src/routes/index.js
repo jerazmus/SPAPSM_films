@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomeScreen from '../components/HomeScreen'
 import Dashboard from '../components/Dashboard'
+import Search from '../components/Search'
+import TopMovies from '../components/TopMovies'
+import Randomizer from '../components/Randomizer'
+import Account from '../components/Account'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -22,6 +26,38 @@ const router = new Router({
             path: '/',
             name: 'home',
             component: HomeScreen
+        },
+        {
+          path: '/search',
+          name: 'Search',
+          component: Search,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/top',
+          name: 'TopMovies',
+          component: TopMovies,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/random',
+          name: 'Randomizer',
+          component: Randomizer,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/account',
+          name: 'Account',
+          component: Account,
+          meta: {
+            requiresAuth: true
+          }
         }
     ]
 })

@@ -48,56 +48,22 @@
           <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
 
           <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
-            <h1>Hello, USERNAME</h1>
-            <h2>Favorite movies</h2>
             <b-row>
               <b-col class="favorite-mobile">
-                <div class="sample-movie-mobile"></div>
-                <div class="sample-movie-mobile"></div>
-                <div class="sample-movie-mobile"></div>
-                <div class="sample-movie-mobile"></div>
-              </b-col>
-            </b-row>
-                <h2>Recently watched</h2>
-            <b-row>
-              <b-col class="watched-mobile">
-                <div class="sample-movie-mobile"></div>
-                <div class="sample-movie-mobile"></div>
-                <div class="sample-movie-mobile"></div>
-                <div class="sample-movie-mobile"></div>
+                <div class="random-movie-mobile"></div>
+                <b-button class="btn-random">RANDOM</b-button>
               </b-col>
             </b-row>
           </b-col>
         </div>
       </span>
 
-      <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - DASHBOARD UZYTKOWNIKA -->
+      <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - RANDOM FILM-->
 
-      <b-row class="d-none d-md-flex dashboard-container">
-        <b-col>
-          <h1>Hello, USERNAME</h1>
-          <b-row class="d-none d-md-flex dashboard-container-favorite">
-            <b-col xs="12" sm="12" md="12" lg="12" xl="12">
-              <h2>Favorite movies</h2>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-            </b-col>
-          </b-row>
-          <b-row class="d-none d-md-flex dashboard-container-watched">
-            <b-col xs="12" sm="12" md="12" lg="12" xl="12">
-              <h2>Recently watched</h2>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-              <div class="sample-movie"></div>
-            </b-col>
-          </b-row>
+      <b-row class="d-none d-md-flex random-container">
+        <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10">
+            <div class="random-movie"></div><br/>
+            <b-button class="btn-random">RANDOM</b-button>
         </b-col>
       </b-row>
   </b-container>
@@ -111,6 +77,7 @@ export default {
   data() {
     return {
       appTitle: "Film Nation",
+      searchTextInput: ""
     }
   },
   computed: {
@@ -127,7 +94,7 @@ export default {
           this.$router.push("/")
         });
     },
-    search() { // metoda navbara
+    search() { // metoda navbara 
         this.$router.push("/search")
     },
     dashboard() { // metoda navbara
@@ -141,15 +108,14 @@ export default {
     },
     account() { // metoda navbara
         this.$router.push("/account")
-    }
+    } 
   }
 };
 </script>
 
 <style>
-.dashboard-container {
+.random-container {
   text-align: left;
-  padding-left: 5%;
   margin-top: 50px;
   min-height: 80vh;
   background-color: rgba(0, 0, 0, 0.6);
@@ -157,44 +123,29 @@ export default {
   font-family: 'Fira Sans Condensed', sans-serif;
 }
 
-.sample-movie {
-  width: 200px;
-  height: 250px;
+.random-movie {
+  width: 400px;
+  height: 550px;
   background-color: grey;
   display: inline-block;
   margin-left: 2px;
   margin-right: 2px;
+  margin-top: 100px;
   border-radius: 10px;
 }
 
-.sample-movie-mobile {
-  width: 150px;
-  height: 200px;
+.random-movie-mobile {
+  width: 300px;
+  height: 400px;
   background-color: grey;
   display: inline-block;
-  margin-left: auto;
-  margin: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-top: 50px;
   border-radius: 10px;
 }
 
-.favorite-mobile, .watched-mobile {
-  text-align: center;
-}
-
-.navbar {
-  background-color: black;
-  color: white;
-}
-
-#navbar-toggle-collapse {
-  color: white !important;
-  list-style: none;
-  z-index: 10;
-}
-
-.dropdown-item {
-  color: white;
-  text-align: right;
-  font-size: 20px;
+.btn-random {
+    background-color: transparent;
 }
 </style>
