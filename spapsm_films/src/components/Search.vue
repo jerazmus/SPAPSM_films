@@ -5,7 +5,7 @@
 
       <div class="d-md-none home-container">
 
-        <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
+        <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ - SEARCH -->
 
         <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
           <b-form-group sticky>
@@ -38,7 +38,7 @@
 
     <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - SEARCH -->
 
-    <b-row class="d-none d-md-flex dashboard-container">
+    <b-row class="d-none d-md-flex search-container">
       <b-col class="search-column" xs="12" sm="12" md="6" lg="6" xl="6">
         <b-form-group>
           <b-form-input
@@ -136,6 +136,15 @@ export default {
 </script>
 
 <style>
+.search-container {
+  text-align: left;
+  padding-top: 50px;
+  min-height: 90vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-family: 'Fira Sans Condensed', sans-serif;
+}
+
 .search-column {
   margin-left: auto;
   margin-right: auto;
@@ -153,6 +162,10 @@ export default {
   margin: auto;
   margin-top: 0;
   text-align: center;
+  min-height: 85vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding-top: 50px;
+  min-width: 99vw;
 }
 
 .btn-filter {

@@ -3,7 +3,7 @@
       <navbar></navbar>
       <span>
         <div class="d-md-none home-container">
-          <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
+          <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ - DASHBOARD UZYTKOWNIKA -->
           <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
             <h1>Hello, {{ username }}</h1>
             <h2>Favorite movies</h2>
@@ -31,10 +31,10 @@
       <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - DASHBOARD UZYTKOWNIKA -->
 
       <b-row class="d-none d-md-flex dashboard-container">
-        <b-col>
-          <h1>Hello, {{ username }}</h1>
+        <b-col class="background-dashboard">
+          <h1 class="welcome-title">Hello, {{ username }}</h1>
           <b-row class="d-none d-md-flex dashboard-container-favorite">
-            <b-col xs="12" sm="12" md="12" lg="12" xl="12">
+            <b-col class="favorited" xs="12" sm="12" md="12" lg="12" xl="12">
               <h2>Favorite movies</h2>
               <div class="sample-movie"></div>
               <div class="sample-movie"></div>
@@ -45,7 +45,7 @@
             </b-col>
           </b-row>
           <b-row class="d-none d-md-flex dashboard-container-watched">
-            <b-col xs="12" sm="12" md="12" lg="12" xl="12">
+            <b-col class="watched" xs="12" sm="12" md="12" lg="12" xl="12">
               <h2>Recently watched</h2>
               <div class="sample-movie"></div>
               <div class="sample-movie"></div>
@@ -84,12 +84,15 @@ export default {
 <style>
 .dashboard-container {
   text-align: left;
-  padding-left: 5%;
-  margin-top: 50px;
-  min-height: 80vh;
+  padding-top: 50px;
+  min-height: 90vh;
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
   font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+.background-dashboard {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .sample-movie {
@@ -116,6 +119,10 @@ export default {
   text-align: center;
 }
 
+.favorited, .watched {
+  padding-left: 5%;
+}
+
 .navbar {
   background-color: black;
   color: white;
@@ -131,5 +138,9 @@ export default {
   color: white;
   text-align: right;
   font-size: 20px;
+}
+
+.welcome-title {
+  padding-left: 5%;
 }
 </style>

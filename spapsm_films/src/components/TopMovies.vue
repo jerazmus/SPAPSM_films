@@ -4,7 +4,7 @@
       <navbar></navbar>
 
       <div class="d-md-none home-container">
-        <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
+        <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ - TOP FILMY -->
 
         <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
           <b-row>
@@ -54,7 +54,6 @@ export default {
   data() {
     return {
       appTitle: "Film Nation",
-      searchTextInput: ""
     };
   },
   components: {
@@ -66,9 +65,9 @@ export default {
 <style>
 .topmovies-container {
   text-align: left;
-  margin-top: 150px;
-  min-height: 80vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  padding-top: 100px;
+  min-height: 75vh;
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   font-family: "Fira Sans Condensed", sans-serif;
 }

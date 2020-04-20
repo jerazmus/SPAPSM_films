@@ -4,18 +4,18 @@
 
     <div class="d-none d-md-block">
       <div>
-        <b-navbar toggleable="lg">
+        <b-navbar toggleable="md">
           <b-navbar-brand href="#">
             <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
           </b-navbar-brand>
           <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
           <b-navbar-nav>
-            <b-nav-item @click.prevent="dashboard">My dashboard</b-nav-item>
-            <b-nav-item @click.prevent="search">Search</b-nav-item>
-            <b-nav-item @click.prevent="topMovies">Top movies</b-nav-item>
-            <b-nav-item @click.prevent="randomizer">Randomizer</b-nav-item>
-            <b-nav-item @click.prevent="account">My account</b-nav-item>
-            <b-nav-item @click.prevent="signout">Log Out</b-nav-item>
+            <b-nav-item @click.prevent="dashboard" class="navbar-item-big">My dashboard</b-nav-item>
+            <b-nav-item @click.prevent="search" class="navbar-item-big">Search</b-nav-item>
+            <b-nav-item @click.prevent="topMovies" class="navbar-item-big">Top movies</b-nav-item>
+            <b-nav-item @click.prevent="randomizer" class="navbar-item-big">Randomizer</b-nav-item>
+            <b-nav-item @click.prevent="account" class="navbar-item-big">My account</b-nav-item>
+            <b-nav-item @click.prevent="signout" class="navbar-item-big">Log Out</b-nav-item>
           </b-navbar-nav>
         </b-navbar>
       </div>
@@ -42,12 +42,8 @@
             <b-dropdown-item @click.prevent="signout">Log Out</b-dropdown-item>
           </b-collapse>
       </b-navbar>
-
-      <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
     </div>
   </span>
-
-  <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - TOP FILMY -->
 </template>
 
 <script>
@@ -58,7 +54,6 @@ export default {
   data() {
     return {
       appTitle: "Film Nation",
-      searchTextInput: ""
     };
   },
   computed: {
@@ -100,13 +95,7 @@ export default {
 };
 </script>
 
-<style>
-.topmovies-container {
-  text-align: left;
-  margin-top: 150px;
-  min-height: 80vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  font-family: "Fira Sans Condensed", sans-serif;
+<style> 
+@media screen and (max-width: 991px) and (min-width: 768px) {
 }
 </style>
