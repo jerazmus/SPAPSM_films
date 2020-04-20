@@ -342,9 +342,10 @@ p,
   margin: 0;
 }
 
+
 .home-container {
   margin: 0;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background-color: rgba(0, 0, 0, 0.7);
 }
 

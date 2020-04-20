@@ -1,54 +1,11 @@
 <template>
   <b-container fluid class="main">
+      <navbar></navbar>
       <span>
-        <!-- NAVBAR KTÓRY WYŚWIETLA SIĘ TYLKO DLA BREAKPOINTÓW OD MEDIUM W GÓRE - POKAZUJE IKONĘ, NAZWĘ I MENU UŻYTKOWNIKA -->
-
-        <div class="d-none d-md-block">
-          <div>
-            <b-navbar toggleable="lg">
-              <b-navbar-brand href="#">
-                <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
-              </b-navbar-brand>
-              <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
-              <b-navbar-nav>
-                <b-nav-item @click.prevent="search">Search</b-nav-item>
-                <b-nav-item @click.prevent="topMovies">Top movies</b-nav-item>
-                <b-nav-item @click.prevent="randomizer">Randomizer</b-nav-item>
-                <b-nav-item @click.prevent="dashboard">My dashboard</b-nav-item>
-                <b-nav-item @click.prevent="account">My account</b-nav-item>
-                <b-nav-item @click.prevent="signout">Log Out</b-nav-item>
-              </b-navbar-nav>
-            </b-navbar>
-          </div>
-        </div>
-
-        <!-- ROZWIJANY NAVBAR, KTÓRY POJAWIA SIĘ DLA BREAKPOINTA MEDIUM I NIŻEJ, ZNADUJE SIE TU MENU UŻYTKOWNIKA -->
-
         <div class="d-md-none home-container">
-          <b-navbar toggleable sticky>
-            <b-navbar-brand href="#">
-              <img src="@/assets/cinema.png" id="icon_film_white" alt="camera" />
-            </b-navbar-brand>
-            <b-navbar-brand href="#" class="text-light">{{ appTitle }}</b-navbar-brand>
-
-            <b-navbar-toggle target="navbar-toggle-collapse" class="text-light">
-              <b-icon icon="list"></b-icon>
-            </b-navbar-toggle>
-
-            <b-collapse id="navbar-toggle-collapse" is-nav>
-              <b-dropdown-item @click.prevent="search">Search</b-dropdown-item>
-              <b-dropdown-item @click.prevent="topMovies">Top movies</b-dropdown-item>
-              <b-dropdown-item @click.prevent="randomizer">Randomizer</b-dropdown-item>
-              <b-dropdown-item @click.prevent="dashboard">My dashboard</b-dropdown-item>
-              <b-dropdown-item @click.prevent="account">My account</b-dropdown-item>
-              <b-dropdown-item @click.prevent="signout">Log Out</b-dropdown-item>
-            </b-collapse>
-          </b-navbar>
-
           <!-- TU JEST CIAŁO STRONY, ZAWIERAJACY SIE W BLOKU "MOBILNYM", CZYLI TA WERSJA POKAZUJE SIE TYLKO DLA BREAKPOINTOW MEDIUM I NIŻEJ -->
-
           <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
-            <h1>Hello, USERNAME</h1>
+            <h1>Hello, {{ username }}</h1>
             <h2>Favorite movies</h2>
             <b-row>
               <b-col class="favorite-mobile">
@@ -75,7 +32,7 @@
 
       <b-row class="d-none d-md-flex dashboard-container">
         <b-col>
-          <h1>Hello, USERNAME</h1>
+          <h1>Hello, {{ username }}</h1>
           <b-row class="d-none d-md-flex dashboard-container-favorite">
             <b-col xs="12" sm="12" md="12" lg="12" xl="12">
               <h2>Favorite movies</h2>
@@ -104,44 +61,22 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import firebase from "firebase";
+import Navbar from "./Navbar"
 
 export default {
   data() {
     return {
       appTitle: "Film Nation",
+      username: null
     }
   },
-  computed: {
-    ...mapGetters({
-      user: "user"
-    })
+  components: {
+    Navbar
   },
-  methods: {
-    signout() { // metoda navbara
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.push("/")
-        });
-    },
-    search() { // metoda navbara
-        this.$router.push("/search")
-    },
-    dashboard() { // metoda navbara
-        this.$router.push("/dashboard")
-    },
-    topMovies() { // metoda navbara
-        this.$router.push("/top")
-    },
-    randomizer() { // metoda navbara
-        this.$router.push("/random")
-    },
-    account() { // metoda navbara
-        this.$router.push("/account")
-    }
+  created() {
+    var user = firebase.auth().currentUser
+    this.username = user.displayName
   }
 };
 </script>
