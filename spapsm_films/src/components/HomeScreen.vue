@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <!-- ROZWIJANY NAVBAR, KTÓRY POJAWIA SIĘ DLA BREAKPOINTA MEDIUM I NIŻEJ, NIEUŻYWANY -->
+        <!-- ROZWIJANY NAVBAR, KTÓRY POJAWIA SIĘ DLA BREAKPOINTA MEDIUM I NIŻEJ, NIEUŻYWANY COLLAPSE -->
 
         <div class="d-md-none home-container">
           <b-navbar toggleable>
@@ -64,7 +64,7 @@
 
               <b-button @click="login" variant="outline-light">Log In</b-button>
               <div id="choice">
-                <br />or Sign In with
+                <br />or Log In with
                 <br />
                 <button @click="socialGoogleLogin" class="social-button">
                   <img alt="Google Logo" src="../assets/google.png" />
@@ -146,7 +146,7 @@
 
             <b-button @click="login" variant="outline-light">Log In</b-button>
             <div id="choice">
-              <br />or Sign In with
+              <br />or Log In with
               <br />
               <button @click="socialGoogleLogin" class="social-button">
                 <img alt="Google Logo" src="../assets/google.png" />
@@ -311,6 +311,10 @@ export default {
   padding: 0px;
 }
 
+.row {
+  margin: 0;
+}
+
 h1,
 p,
 .nav-link {
@@ -335,23 +339,26 @@ p,
   background-color: #343a40;
   background-color: black;
   background-image: url("../assets/cinema2.jpg");
+  background-repeat: no-repeat;
   background-position: bottom;
   background-size: center;
   background-size: cover;
   min-height: 100vh;
   margin: 0;
+  padding: 0;
 }
+
 
 .home-container {
   margin: 0;
-  min-height: 100vh;
+  min-height: 87vh;
   background-color: rgba(0, 0, 0, 0.7);
 }
 
 .main-form {
   position: relative;
   margin: 0;
-  margin-top: 5%;
+  margin-top: 10%;
   margin-left: auto;
   margin-right: auto;
   color: white;
@@ -360,7 +367,7 @@ p,
 
 .form-desc {
   text-align: center;
-  margin-top: 200px;
+  margin-top: 300px;
   font-family: 'Fira Sans Condensed', sans-serif;
   font-weight: 300;
   font-size: 20px;
