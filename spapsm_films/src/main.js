@@ -6,9 +6,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as firebase from 'firebase/app'
 import router from "./routes/index";
 import store from "./store"
+import axios from 'axios'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
+Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
@@ -27,7 +30,6 @@ firebase.initializeApp(firebaseConfig)
 
 firebase.auth().onAuthStateChanged(user => {
   store.dispatch("fetchUser", user)
-
 })
 
 new Vue({
