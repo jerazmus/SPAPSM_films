@@ -17,11 +17,11 @@
             <b-button @click="search" class="btn-filter">SEARCH</b-button>
           </b-form-group>
           <b-row>
-            <b-col class="search-results">
+            <b-col class="search-results" id="search-results-mobile">
               <!-- 
                 <div class="sample-movie-mobile"></div> 
                 chyba jest niepotrzebny, chyba może być ten sam styl plakatów co normalny
-              --> 
+              -->
             </b-col>
           </b-row>
         </b-col>
@@ -50,7 +50,15 @@
         <b-button class="btn-filter">FILTER</b-button>
       </b-col>
 
-      <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10"></b-col>
+      <b-col
+        class="search-results"
+        id="search-results-desktop"
+        xs="12"
+        sm="12"
+        md="10"
+        lg="10"
+        xl="10"
+      ></b-col>
     </b-row>
   </b-container>
 </template>
@@ -72,48 +80,52 @@ export default {
   },
   methods: {
     fixTextInput() {
+      //zamiana spacji na znaki oznaczające spacje w linku API
       return this.searchTextInput.replace(" ", "%20");
     },
     clearResults() {
-      return (document.getElementsByClassName("search-results").innerHTML = "");
+      // czyszczenie kafelków po każdym szukaniu nowego hasła
+      const divs = document.querySelectorAll('.search-results')
+      return divs[0].innerHTML = '', divs[1].innerHTML = ''
     },
     search() {
+      //łączenie z api przez axios
       this.$http
         .get(
-          `${
-            this.apiLink
-          }search/movie?api_key=f2bdee8336da34398a99b1ea328805d8&language=pl-PL&query=${this.fixTextInput()}&page=1&include_adult=false`
+          `${this.apiLink}search/movie?api_key=f2bdee8336da34398a99b1ea328805d8&language=pl-PL&query=${this.fixTextInput()}&page=1&include_adult=false`
         )
         .then(response => {
-          console.log(response)
+          //sprawdzenie czy istnieje dana fraza w bazie, jeśli nie to alert
           if (response.data.total_results != 0) {
             this.results = response.data.results;
-            console.log(this.results);
+
+            // console.log(this.results);
 
             this.clearResults();
 
-            this.results.forEach(item => {
-              if (item.poster_path != null) {
-                const divResultsMobile = document.getElementsByClassName("search-results")[0];
-                const divResults = document.getElementsByClassName("search-results")[1];
+            const divResults = document.querySelectorAll(".search-results");
 
-                const div = document.createElement("div");
-                div.className = "sample-movie";
+            divResults.forEach(view => {
+              this.results.forEach(item => {
+                if (item.poster_path != null) {
+                  const div = document.createElement("div");
+                  div.className = "sample-movie";
 
-                const img = document.createElement("img");
-                img.src = `https://image.tmdb.org/t/p/original${item.poster_path}`;
+                  const img = document.createElement("img");
+                  img.src = `https://image.tmdb.org/t/p/original${item.poster_path}`;
 
-                const a = document.createElement("a");
-                a.href = "#";
+                  const a = document.createElement("a");
+                  a.href = "#";
 
-                a.appendChild(img);
-                div.appendChild(a);
-                divResultsMobile.appendChild(div);
-                divResults.appendChild(div);
-              }
-            })
+                  a.appendChild(img);
+                  div.appendChild(a);
+                  // divResultsMobile.appendChild(div);
+                  view.appendChild(div);
+                }
+              });
+            });
           } else {
-            alert('Nie ma takiego filmu w bazie')
+            alert("Nie ma takiego filmu w bazie");
           }
 
           // console.log(`Film id: ${this.results.id} `);
