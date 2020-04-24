@@ -135,11 +135,18 @@ export default {
 .movie-rank {
   width: 180px;
   height: 25px;
-  background-color: grey;
+  background-color: rgb(70, 70, 70);
   display: inline-block;
+  margin-top: 1px;
   margin-left: 2px;
   margin-right: 5px;
   margin-bottom: 5px;
   border-radius: 10px;
+}
+
+@media screen and (max-width: 424px){
+  .movie-rank {
+    width: 140px;
+  }
 }
 </style>

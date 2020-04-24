@@ -10,18 +10,13 @@
           <b-form-group sticky>
             <b-form-input
               id="search-input"
-              v-on:keyup.enter="searchInput"
+              v-on:keyup.enter="search"
               v-model="searchTextInput"
               placeholder="Search..."
             ></b-form-input>
-            <b-button @click="search" class="btn-filter">SEARCH</b-button>
           </b-form-group>
           <b-row>
             <b-col class="search-results" id="search-results-mobile">
-              <!-- 
-                <div class="sample-movie-mobile"></div> 
-                chyba jest niepotrzebny, chyba może być ten sam styl plakatów co normalny
-              -->
             </b-col>
           </b-row>
         </b-col>
@@ -35,11 +30,11 @@
         <b-form-group>
           <b-form-input
             id="search-input"
-            v-on:keyup.enter="searchInput"
+            v-on:keyup.enter="search"
             v-model="searchTextInput"
             placeholder="Search..."
           ></b-form-input>
-          <b-button @click="search" class="btn-filter">SEARCH</b-button>
+          <b-button @click="search" class="btn-search">SEARCH</b-button>
         </b-form-group>
         <b-button class="btn-filter">FILTER</b-button>
         <b-button class="btn-filter">FILTER</b-button>
@@ -87,6 +82,11 @@ export default {
       // czyszczenie kafelków po każdym szukaniu nowego hasła
       const divs = document.querySelectorAll('.search-results')
       return divs[0].innerHTML = '', divs[1].innerHTML = ''
+
+    },
+    clearTextInput() {
+      // czyszczenie tego co sie wpisało w search bo wyszukaniu
+      this.searchTextInput = ""
     },
     search() {
       //łączenie z api przez axios
@@ -102,6 +102,7 @@ export default {
             // console.log(this.results);
 
             this.clearResults();
+            this.clearTextInput();
 
             const divResults = document.querySelectorAll(".search-results");
 
@@ -161,24 +162,32 @@ export default {
   background-color: rgba(255, 255, 255, 0.2);
   border: none;
   color: white;
+  display: inline;
 }
 
 .search-results {
   margin: auto;
   margin-top: 0;
   text-align: center;
-  min-height: 85vh;
+  min-height: 75vh;
   background-color: rgba(0, 0, 0, 0.6);
+  padding: 0;
   padding-top: 50px;
   min-width: 99vw;
 }
 
-.btn-filter {
+.btn-filter, .btn-search {
   margin: 1px;
   color: white;
   background-color: rgba(255, 255, 255, 0.2);
   border: none;
+  display: inline;
 }
+
+.btn-search {
+  position: absolute;
+}
+
 .sample-movie img {
   width: 180px;
   height: 256px;
@@ -187,5 +196,26 @@ export default {
   margin-left: 2px;
   margin-right: 2px;
   border-radius: 10px;
+}
+
+#search-results-mobile {
+  padding: 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 424px){
+  .sample-movie {
+    width: 140px;
+    height: 226px;
+  }
+
+  .sample-movie img {
+    width: 140px;
+    height: 226px;
+  }
+
+  .search-results {
+    min-width: 95vw;
+  }
 }
 </style>

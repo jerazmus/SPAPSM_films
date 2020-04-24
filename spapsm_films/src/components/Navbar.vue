@@ -16,6 +16,7 @@
             <b-nav-item @click.prevent="randomizer" class="navbar-item-big">Randomizer</b-nav-item>
             <b-nav-item @click.prevent="account" class="navbar-item-big">My account</b-nav-item>
             <b-nav-item @click.prevent="signout" class="navbar-item-big">Log Out</b-nav-item>
+            <b-nav-item @click.prevent="movie" class="navbar-item-big">Movie</b-nav-item>
           </b-navbar-nav>
         </b-navbar>
       </div>
@@ -40,6 +41,7 @@
             <b-dropdown-item @click.prevent="randomizer">Randomizer</b-dropdown-item>
             <b-dropdown-item @click.prevent="account">My account</b-dropdown-item>
             <b-dropdown-item @click.prevent="signout">Log Out</b-dropdown-item>
+            <b-dropdown-item @click.prevent="movie">Movie</b-dropdown-item>
           </b-collapse>
       </b-navbar>
     </div>
@@ -90,6 +92,10 @@ export default {
     account() {
       // metoda navbara
       this.$router.push("/account");
+    },
+    movie () {
+      // metoda tymczasowa navara
+      this.$router.push("/movie");
     }
   }
 };

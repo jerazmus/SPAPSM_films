@@ -168,6 +168,7 @@ export default {
 .favorite-mobile,
 .watched-mobile {
   text-align: center;
+  padding: 0;
 }
 
 .favorited,
