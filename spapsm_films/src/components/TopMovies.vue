@@ -9,7 +9,33 @@
         <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
           <b-row>
             <h1>Most popular films today (themoviedb.org)</h1>
-            <b-col class="search-results"></b-col>
+            <b-col class="search-results">
+              <div
+                class="sample-movie bottom-space"
+                v-for="(film, index) in this.results.slice(0,10)"
+                :key="film.id"
+                @click="moviePage(film.id)"
+              >
+                <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
+                {{ index + 1 }}
+              </div>
+            </b-col>
+          </b-row>
+
+          <b-row>
+            <h1 class="welcome-title">Most popular films weekly (themoviedb.org)</h1>
+
+            <b-col class="search-results" xs="12" sm="12" md="6" lg="6" xl="6">
+              <div
+                class="sample-movie bottom-space"
+                v-for="(film, index) in this.resultsWeekly.slice(0,10)"
+                :key="film.id"
+                @click="moviePage(film.id)"
+              >
+                <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
+                {{ index + 1 }}
+              </div>
+            </b-col>
           </b-row>
         </b-col>
       </div>
@@ -21,11 +47,32 @@
       <h1 class="welcome-title">Most popular films today (themoviedb.org)</h1>
 
       <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10">
-        <!-- <div class="sample-movie bottom-space" v-for="item in this.results" :key="item">
-            <img src=`https://image.tmdb.org/t/p/original + ${item.poster_path}`>
-        </div> -->
+        <div
+          class="sample-movie bottom-space"
+          v-for="(film, index) in this.results.slice(0,10)"
+          :key="film.id"
+          @click="moviePage(film.id)"
+        >
+          <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
+          {{ index + 1 }}
+        </div>
       </b-col>
-      <!-- <b-col class="search-results-week" xs="12" sm="12" md="10" lg="10" xl="10"></b-col> -->
+    </b-row>
+
+    <b-row class="d-none d-md-flex topmovies-container">
+      <h1 class="welcome-title">Most popular films weekly (themoviedb.org)</h1>
+
+      <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10">
+        <div
+          class="sample-movie bottom-space"
+          v-for="(film, index) in this.resultsWeekly.slice(0,10)"
+          :key="film.id"
+          @click="moviePage(film.id)"
+        >
+          <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
+          {{ index + 1 }}
+        </div>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -38,51 +85,18 @@ export default {
     return {
       appTitle: "Film Nation",
       apiLink: "https://api.themoviedb.org/3/",
-      results: []
+      results: [],
+      resultsWeekly: []
     };
   },
   components: {
     Navbar
   },
   methods: {
-    clearResults() {
-      // czyszczenie kafelków po każdym szukaniu nowego hasła
-      const divs = document.querySelectorAll(".search-results");
-      return (divs[0].innerHTML = ""), (divs[1].innerHTML = "");
-    },
-    createFilmDivs() {
-      //łapie wszystkie elementy z klasą
-      const divResults = document.querySelectorAll(`.search-results`);
-
-      divResults.forEach(view => {
-        for (let i = 0; i < 1; i++) {
-          if (this.results[i].poster_path != null) {
-            // tworzenie div'a dla plakatu
-            const div = document.createElement("div");
-            div.className = "sample-movie bottom-space";
-
-         //dlaczego to poniżej automatycznie robi przekierowanie...
-            div.setAttribute("onclick", this.moviePage(i));
-
-            // ścieżka do zdjecia plakatu
-            const img = document.createElement("img");
-            img.src = `https://image.tmdb.org/t/p/original${this.results[i].poster_path}`;
-
-            const number = document.createElement("span");
-            number.className = "movie-rank";
-            number.innerHTML = i + 1 + ` id: ${this.results[i].id}`;
-
-            div.appendChild(img);
-            div.appendChild(number);
-            view.appendChild(div);
-          }
-        }
-      });
-    },
     moviePage(num) {
       this.$router.push({
         name: "Movie",
-        params: { filmId: this.results[num].id } //to jakoś łapie id ostatniego elementu z pętli
+        params: { filmId: num }
       });
     },
     callApiDay() {
@@ -94,38 +108,29 @@ export default {
           //sprawdzenie czy istnieje dana fraza w bazie, jeśli nie to alert
           if (response.data.total_results != 0) {
             this.results = response.data.results;
-
-            this.clearResults();
-            this.createFilmDivs();
+          } else {
+            alert("Nie ma takiego filmu w bazie");
+          }
+        });
+    },
+    callApiWeek() {
+      this.$http
+        .get(
+          `${this.apiLink}trending/movie/week?api_key=f2bdee8336da34398a99b1ea328805d8`
+        )
+        .then(response => {
+          //sprawdzenie czy istnieje dana fraza w bazie, jeśli nie to alert
+          if (response.data.total_results != 0) {
+            this.resultsWeekly = response.data.results;
           } else {
             alert("Nie ma takiego filmu w bazie");
           }
         });
     }
-    // callApiWeek() {
-    // // nie mam pomysłu jak fajnie uzależnić funkcje, żeby się zmieniały w zależności od trybu dzien-tydzien
-    // // można na około to zrobić, aby po prostu inny div wybierały ale to jest kopiowanie kodu XD
-    // // any idea how to fix it?
-    //   this.$http
-    //     .get(
-    //       `${this.apiLink}trending/movie/week?api_key=f2bdee8336da34398a99b1ea328805d8`
-    //     )
-    //     .then(response => {
-    //       //sprawdzenie czy istnieje dana fraza w bazie, jeśli nie to alert
-    //       if (response.data.total_results != 0) {
-    //         this.results = response.data.results;
-
-    //         this.clearResults();
-    //         this.createFilmDivs();
-    //       } else {
-    //         alert("Nie ma takiego filmu w bazie");
-    //       }
-    //     });
-    // },
   },
   created() {
     this.callApiDay();
-    // this.callApiWeek();
+    this.callApiWeek();
   }
 };
 </script>

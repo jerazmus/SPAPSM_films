@@ -7,34 +7,36 @@
         <b-col class="movie-details">
           <b-row class="movie-title-wrapper">
             <b-col class="title-column">
-              <img  @click="nav()" src="../assets/arrow.png" />
-              <h3 class="movie-title">{{ movieTitle }}</h3>
+              <img @click="nav()" src="../assets/arrow.png" />
+              <h3 class="movie-title">{{ this.movieTitle }}</h3>
             </b-col>
           </b-row>
           <b-row>
             <b-col class="quarter movie-description">
-              <span>{{ movieDescription }}</span>
+              <span>{{ this.movieDescription }}</span>
             </b-col>
             <b-col class="quarter movie-poster">
-              <div class="movie-poster-mobile"></div>
+              <div class="movie-poster-mobile">
+                <img class="movie-poster-mobile" v-bind:src="'https://image.tmdb.org/t/p/original' + this.poster" />
+              </div>
             </b-col>
           </b-row>
           <b-row>
             <b-col class="quarter movie-info">
               <p class="detail">
                 Duration:
-                <span class="detail-variable">{{ movieDuration }}</span>
+                <span class="detail-variable">{{ this.movieDuration }}</span>
               </p>
               <p class="detail">
                 Year:
-                <span class="detail-variable">{{ movieYear }}</span>
+                <span class="detail-variable">{{ this.movieYear }}</span>
               </p>
               <p class="detail">
                 Directed by:
-                <span class="detail-variable">{{ movieDirector }}</span>
+                <span class="detail-variable">{{ this.movieDirector }}</span>
               </p>
               <p class="detail">Cast:</p>
-              <p class="detail" v-for="actor in cast" v-bind:key="actor.id">
+              <p class="detail" v-for="actor in this.cast" v-bind:key="actor.id">
                 <span class="detail-variable">{{ actor }}</span>
               </p>
             </b-col>
@@ -52,8 +54,8 @@
                 </span>
               </p>
               <p class="rating">Rating:</p>
-              <p class="rating-variable">
-                <span class="rating-variable">{{ movieRating }}</span>
+              <p class="rating-variable-mobile">
+                <span class="rating-variable-mobile">{{ this.movieRating }} ({{this.movieVotes}} votes)</span>
               </p>
               <p class="trailer-wrapper">
                 <span class="trailer">
@@ -74,7 +76,7 @@
           <b-col class="movie-title-wrapper-desktop">
             <h1>
               <img @click="nav()" src="../assets/arrow.png" />
-              {{ movieTitle }}
+              {{ this.movieTitle }}
             </h1>
           </b-col>
         </b-row>
@@ -83,29 +85,31 @@
             <b-row>
               <b-col class="quarter-desktop movie-description-desktop">
                 <p class="description-wrapper-desktop">
-                  <span class="description-desktop">{{ movieDescription }}</span>
+                  <span class="description-desktop">{{ this.movieDescription }}</span>
                 </p>
               </b-col>
               <b-col class="quarter-desktop movie-poster-desktop-wrapper">
-                <div class="movie-poster-desktop"></div>
+                <div class="movie-poster-desktop">
+                  <img class="movie-poster-desktop" v-bind:src="'https://image.tmdb.org/t/p/original' + this.poster" />
+                </div>
               </b-col>
             </b-row>
             <b-row>
               <b-col class="quarter-desktop movie-info-desktop">
                 <p class="detail-desktop">
                   Duration:
-                  <span class="detail-variable-desktop">{{ movieDuration }}</span>
+                  <span class="detail-variable-desktop">{{ this.movieDuration }} minutes</span>
                 </p>
                 <p class="detail-desktop">
                   Year:
-                  <span class="detail-variable-desktop">{{ movieYear }}</span>
+                  <span class="detail-variable-desktop">{{ this.movieYear }}</span>
                 </p>
                 <p class="detail-desktop">
                   Directed by:
-                  <span class="detail-variable-desktop">{{ movieDirector }}</span>
+                  <span class="detail-variable-desktop">{{ this.movieDirector }}</span>
                 </p>
                 <p class="detail-desktop">Cast:</p>
-                <p class="detail-desktop" v-for="actor in cast" v-bind:key="actor.id">
+                <p class="detail-desktop" v-for="actor in this.cast" v-bind:key="actor.id">
                   <span class="detail-variable-desktop">{{ actor }}</span>
                 </p>
               </b-col>
@@ -124,7 +128,7 @@
                 </p>
                 <p class="rating">Rating:</p>
                 <p class="rating-variable">
-                  <span class="rating-variable">{{ movieRating }}</span>
+                  <span class="rating-variable">{{ this.movieRating }}({{this.movieVotes}} votes)</span>
                 </p>
                 <p class="trailer-wrapper">
                   <span class="trailer">
@@ -142,47 +146,59 @@
 </template>
 
 <script>
-// dodać funkcjonalny przycisk cofania do poprzedniej strony
 import Navbar from "./Navbar";
-// import router from "./routes/index";
 export default {
   data() {
     return {
       appTitle: "Film Nation",
-      movieTitle: this.$route.params.filmId,
-      movieDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Boris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Boris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Boris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Boris nisi ut aliquip ex ea commodo consequat.",
-      movieDuration: "122m",
-      movieYear: 2019,
-      movieDirector: "Maksymilian Bobrowski",
-      cast: [
-        "Jakub Erazmus",
-        "Maksymilian Bobrowski",
-        "Miłosz Wiśniowski",
-        "Jakub Erazmus",
-        "Maksymilian Bobrowski",
-        "Miłosz Wiśniowski",
-        "Jakub Erazmus",
-        "Maksymilian Bobrowski",
-        "Miłosz Wiśniowski"
-      ],
-      movieRating: 6.9,
-      filmId: ''
+      api: "https://api.themoviedb.org/3/",
+      results: [],
+      movieTitle: "",
+      movieDescription: "",
+      movieDuration: "",
+      movieYear: "",
+      movieDirector: "",
+      poster: ``,
+      cast: [],
+      movieRating: ""
     };
   },
-  props: ['title', 'year'],
+  props: ["title", "year"],
   components: {
     Navbar
   },
-  mounted() {
-      console.log(this.$route.params.filmId)
-  },
   methods: {
-      nav() {
-          this.$router.go(-1)
-      }
+    nav() {
+      // przycisk cofania do poprzedniej strony
+      this.$router.go(-1);
+    },
+    getApi(e) {
+      this.$http
+        .get(
+          `https://api.themoviedb.org/3/movie/${e}?api_key=f2bdee8336da34398a99b1ea328805d8`
+        )
+        .then(response => {
+          // przypisanie danych do data -> return
+          this.results = response.data;
+          this.movieTitle = this.results.title;
+          this.movieDescription = this.results.overview;
+          this.movieDuration = this.results.runtime;
+          this.movieYear = this.results.release_date;
+          //   this.movieDirector
+          // this.cast
+          this.movieRating = this.results.vote_average;
+          this.movieVotes = this.results.vote_count;
+          this.poster = this.results.poster_path;
+        //   console.log(this.results);
+        })
+        .catch(err => console.log("error", err));
+    }
+  },
+  mounted() {
+    // console.log(this.$route.params.filmId);
+    // odpalenie funkcji pobierającej dane od filmu na wejśćiu na podstrone
+    this.getApi(this.$route.params.filmId);
   }
-  
 };
 </script>
 
@@ -251,17 +267,19 @@ export default {
 .movie-poster-desktop-wrapper {
   /* To jest "prostokąt" w którym znajduje się plakat */
   margin: 0;
+  margin-top: 20px;
+  margin-bottom: 30px;
   text-align: center;
 }
 
 .movie-poster-desktop {
   /* To jest plakat filmu */
-  width: 60%;
-  height: 90%;
+  width: 260px;
+  height: auto;
   background-color: grey;
   display: inline-block;
   border-radius: 10px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .detail-desktop {
@@ -339,8 +357,8 @@ export default {
 
 .movie-poster-mobile {
   /* To jest plakat filmu */
-  width: 150px;
-  height: 230px;
+  width: 130px;
+  height: auto;
   background-color: grey;
   display: inline-block;
   border-radius: 10px;
@@ -400,6 +418,13 @@ export default {
   text-align: center;
   margin-top: 10px;
   font-size: 60px;
+  color: rgba(255, 255, 255, 0.61);
+}
+
+.rating-variable-mobile {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 20px;
   color: rgba(255, 255, 255, 0.61);
 }
 
