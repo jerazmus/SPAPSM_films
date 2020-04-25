@@ -20,8 +20,12 @@
     <b-row class="d-none d-md-flex topmovies-container">
       <h1 class="welcome-title">Most popular films today (themoviedb.org)</h1>
 
-      <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10"></b-col>
-      <b-col class="search-results-week" xs="12" sm="12" md="10" lg="10" xl="10"></b-col>
+      <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10">
+        <!-- <div class="sample-movie bottom-space" v-for="item in this.results" :key="item">
+            <img src=`https://image.tmdb.org/t/p/original + ${item.poster_path}`>
+        </div> -->
+      </b-col>
+      <!-- <b-col class="search-results-week" xs="12" sm="12" md="10" lg="10" xl="10"></b-col> -->
     </b-row>
   </b-container>
 </template>
@@ -33,7 +37,8 @@ export default {
   data() {
     return {
       appTitle: "Film Nation",
-      apiLink: "https://api.themoviedb.org/3/"
+      apiLink: "https://api.themoviedb.org/3/",
+      results: []
     };
   },
   components: {
@@ -50,29 +55,34 @@ export default {
       const divResults = document.querySelectorAll(`.search-results`);
 
       divResults.forEach(view => {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 1; i++) {
           if (this.results[i].poster_path != null) {
             // tworzenie div'a dla plakatu
             const div = document.createElement("div");
             div.className = "sample-movie bottom-space";
+
+         //dlaczego to poniżej automatycznie robi przekierowanie...
+            div.setAttribute("onclick", this.moviePage(i));
+
             // ścieżka do zdjecia plakatu
             const img = document.createElement("img");
             img.src = `https://image.tmdb.org/t/p/original${this.results[i].poster_path}`;
-            // odnośnik do podstorny
-            const a = document.createElement("a");
-            a.href = "#";
 
-            // numer pod filmem
             const number = document.createElement("span");
             number.className = "movie-rank";
-            number.innerHTML = i + 1;
+            number.innerHTML = i + 1 + ` id: ${this.results[i].id}`;
 
-            a.appendChild(img);
-            div.appendChild(a);
+            div.appendChild(img);
             div.appendChild(number);
             view.appendChild(div);
           }
         }
+      });
+    },
+    moviePage(num) {
+      this.$router.push({
+        name: "Movie",
+        params: { filmId: this.results[num].id } //to jakoś łapie id ostatniego elementu z pętli
       });
     },
     callApiDay() {
@@ -91,7 +101,7 @@ export default {
             alert("Nie ma takiego filmu w bazie");
           }
         });
-    },
+    }
     // callApiWeek() {
     // // nie mam pomysłu jak fajnie uzależnić funkcje, żeby się zmieniały w zależności od trybu dzien-tydzien
     // // można na około to zrobić, aby po prostu inny div wybierały ale to jest kopiowanie kodu XD
@@ -144,7 +154,7 @@ export default {
   border-radius: 10px;
 }
 
-@media screen and (max-width: 424px){
+@media screen and (max-width: 424px) {
   .movie-rank {
     width: 140px;
   }
