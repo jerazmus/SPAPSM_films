@@ -17,6 +17,14 @@
           </b-form-group>
           <b-row>
             <b-col class="search-results" id="search-results-mobile">
+              <div
+                class="sample-movie bottom-space"
+                v-for="(film) in this.results"
+                :key="film.id"
+                @click="moviePage(film.id)"
+              >
+                <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
+              </div>
             </b-col>
           </b-row>
         </b-col>
@@ -36,16 +44,17 @@
           ></b-form-input>
           <b-button @click="search" class="btn-search">SEARCH</b-button>
         </b-form-group>
+        <!-- <b-button class="btn-filter">FILTER</b-button>
         <b-button class="btn-filter">FILTER</b-button>
         <b-button class="btn-filter">FILTER</b-button>
         <b-button class="btn-filter">FILTER</b-button>
         <b-button class="btn-filter">FILTER</b-button>
         <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>
+        <b-button class="btn-filter">FILTER</b-button>-->
       </b-col>
 
       <b-col
+        v-if="searchBool"
         class="search-results"
         id="search-results-desktop"
         xs="12"
@@ -53,7 +62,16 @@
         md="10"
         lg="10"
         xl="10"
-      ></b-col>
+      >
+        <div
+          class="sample-movie bottom-space"
+          v-for="(film) in this.results"
+          :key="film.id"
+          @click="moviePage(film.id)"
+        >
+          <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
+        </div>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -67,7 +85,8 @@ export default {
       appTitle: "Film Nation",
       searchTextInput: "",
       apiLink: "https://api.themoviedb.org/3/",
-      results: []
+      results: [],
+      searchBool: false
     };
   },
   components: {
@@ -78,64 +97,40 @@ export default {
       //zamiana spacji na znaki oznaczające spacje w linku API
       return this.searchTextInput.replace(" ", "%20");
     },
-    clearResults() {
-      // czyszczenie kafelków po każdym szukaniu nowego hasła
-      const divs = document.querySelectorAll('.search-results')
-      return divs[0].innerHTML = '', divs[1].innerHTML = ''
-
-    },
     clearTextInput() {
       // czyszczenie tego co sie wpisało w search bo wyszukaniu
-      this.searchTextInput = ""
+      this.searchTextInput = "";
     },
     search() {
+      // this.clearResults();
+      this.searchBool = true;
+      console.log(this.searchBool);
+      console.log(this.searchTextInput);
+      console.log(this.fixTextInput());
       //łączenie z api przez axios
+
       this.$http
         .get(
-          `${this.apiLink}search/movie?api_key=f2bdee8336da34398a99b1ea328805d8&language=pl-PL&query=${this.fixTextInput()}&page=1&include_adult=false`
+          `${
+            this.apiLink
+          }search/movie?api_key=f2bdee8336da34398a99b1ea328805d8&language=pl-PL&query=${this.fixTextInput()}&page=1&include_adult=false`
         )
         .then(response => {
           //sprawdzenie czy istnieje dana fraza w bazie, jeśli nie to alert
           if (response.data.total_results != 0) {
             this.results = response.data.results;
-
-            // console.log(this.results);
-
-            this.clearResults();
-            this.clearTextInput();
-
-            const divResults = document.querySelectorAll(".search-results");
-
-            divResults.forEach(view => {
-              this.results.forEach(item => {
-                if (item.poster_path != null) {
-                  const div = document.createElement("div");
-                  div.className = "sample-movie";
-
-                  const img = document.createElement("img");
-                  img.src = `https://image.tmdb.org/t/p/original${item.poster_path}`;
-
-                  const a = document.createElement("a");
-                  a.href = "#";
-
-                  a.appendChild(img);
-                  div.appendChild(a);
-                  // divResultsMobile.appendChild(div);
-                  view.appendChild(div);
-                }
-              });
-            });
+            console.log(this.results);
           } else {
             alert("Nie ma takiego filmu w bazie");
           }
-
-          // console.log(`Film id: ${this.results.id} `);
-          // console.log(`Film title: ${this.results.title} `);
-          // console.log(`Film poster path: ${this.results.poster_path} `);
-          // console.log(`Film release date: ${this.results.release_date} `);
-          // console.log(`Film vote_avg: ${this.results.vote_average} `);
-          // console.log(`Film vote_number: ${this.results.vote_count} `);
         });
+      this.clearTextInput();
+    },
+    moviePage(num) {
+      this.$router.push({
+        name: "Movie",
+        params: { filmId: num }
+      });
     }
   }
 };
@@ -176,7 +171,8 @@ export default {
   min-width: 99vw;
 }
 
-.btn-filter, .btn-search {
+.btn-filter,
+.btn-search {
   margin: 1px;
   color: white;
   background-color: rgba(255, 255, 255, 0.2);
@@ -203,7 +199,7 @@ export default {
   margin: 0;
 }
 
-@media screen and (max-width: 424px){
+@media screen and (max-width: 424px) {
   .sample-movie {
     width: 140px;
     height: 226px;
