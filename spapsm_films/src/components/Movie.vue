@@ -254,9 +254,26 @@ export default {
       this.fav = false;
     },
     addWatched() {
+      var user = firebase.auth().currentUser;
+      const uid = user.uid;
+      firebase
+        .database()
+        .ref(`user_watched/${uid}/${this.$route.params.filmId}`)
+        .set({
+          filmId: this.$route.params.filmId
+        })
+        .then(() => {
+          this.checkIfExists(this.$route.params.filmId);
+        });
       this.watched = true
     },
     removeWatched() {
+      var user = firebase.auth().currentUser;
+      const uid = user.uid;
+      firebase
+        .database()
+        .ref(`user_watched/${uid}/${this.$route.params.filmId}`)
+        .remove();
       this.watched = false
     }
   },
@@ -277,6 +294,20 @@ export default {
         // pokaż button usuń rekord
       } else {
         this.fav = false;
+        // pokaż button dodaj do ulubionych
+      }
+    });
+
+    const watch = firebase
+      .database()
+      .ref(`user_watched/${uid}/${this.$route.params.filmId}`);
+
+    watch.once("value").then(snapshot => {
+      if (snapshot.child("filmId").exists()) {
+        this.watched = true;
+        // pokaż button usuń rekord
+      } else {
+        this.watched = false;
         // pokaż button dodaj do ulubionych
       }
     });
