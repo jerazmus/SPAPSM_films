@@ -28,7 +28,7 @@
             <b-col class="quarter movie-info">
               <p class="detail">
                 Duration:
-                <span class="detail-variable">{{ this.movieDuration }}</span>
+                <span class="detail-variable">{{ this.movieDuration }}min</span>
               </p>
               <p class="detail">
                 Release date:
@@ -54,6 +54,16 @@
                   <img @click="addData()" src="../assets/heart-before.png" />
                 </span>
               </p>
+              <p class="movie-button-wrapper">
+                <span v-if="this.watched" class="movie-button">
+                  remove from watched
+                  <img @click="removeWatched()" src="../assets/eye-after.png" />
+                </span>
+                <span v-else class="movie-button">
+                  add to watched
+                  <img @click="addWatched()" src="../assets/eye-before.png" />
+                </span>
+              </p>
               <p class="rating">Rating:</p>
               <p class="rating-variable-mobile">
                 <span
@@ -74,7 +84,7 @@
 
     <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - INFORMACJE O FILMIE -->
     <b-row class="d-none d-md-flex movie-details-container">
-      <b-col class="movie-details-column-desktop" xs="12" sm="12" md="10" lg="10" xl="10">
+      <b-col class="movie-details-column-desktop" xs="12" sm="12" md="8" lg="8" xl="8">
         <b-row>
           <b-col class="movie-title-wrapper-desktop">
             <h1>
@@ -104,7 +114,7 @@
               <b-col class="quarter-desktop movie-info-desktop">
                 <p class="detail-desktop">
                   Duration:
-                  <span class="detail-variable-desktop">{{ this.movieDuration }} minutes</span>
+                  <span class="detail-variable-desktop">{{ this.movieDuration }} min</span>
                 </p>
                 <p class="detail-desktop">
                   Release date:
@@ -120,7 +130,6 @@
                 </p>
               </b-col>
               <b-col class="quarter-desktop">
-                <p class="movie-button-wrapper"></p>
                 <p class="movie-button-wrapper">
                   <span v-if="this.fav" class="movie-button">
                     remove from favorites
@@ -132,9 +141,13 @@
                   </span>
                 </p>
                 <p class="movie-button-wrapper">
-                  <span class="movie-button">
+                  <span v-if="this.watched" class="movie-button">
+                    remove from watched
+                    <img @click="removeWatched" src="../assets/eye-after.png" />
+                  </span>
+                  <span v-else class="movie-button">
                     add to watched
-                    <img src="../assets/eye-before.png" />
+                    <img @click="addWatched" src="../assets/eye-before.png" />
                   </span>
                 </p>
                 <p class="rating">Rating:</p>
@@ -174,7 +187,8 @@ export default {
       movieRating: "",
       movieVotes: "",
       genres: [],
-      fav: false
+      fav: false,
+      watched: false
     };
   },
   props: ["title", "year"],
@@ -238,6 +252,12 @@ export default {
         .ref(`user_films/${uid}/${this.$route.params.filmId}`)
         .remove();
       this.fav = false;
+    },
+    addWatched() {
+      this.watched = true
+    },
+    removeWatched() {
+      this.watched = false
     }
   },
   mounted() {
@@ -455,6 +475,7 @@ export default {
 
 .movie-button {
   color: rgba(255, 255, 255, 0.61);
+  font-size: 15px;
 }
 
 .movie-button img {

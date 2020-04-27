@@ -17,7 +17,7 @@
                 @click="moviePage(film.id)"
               >
                 <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
-                {{ index + 1 }}
+                <span class="movie-rank">{{ index + 1 }}</span>
               </div>
             </b-col>
           </b-row>
@@ -33,7 +33,7 @@
                 @click="moviePage(film.id)"
               >
                 <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
-                {{ index + 1 }}
+                <span class="movie-rank">{{ index + 1 }}</span>
               </div>
             </b-col>
           </b-row>
@@ -44,7 +44,7 @@
     <!-- TUTAJ JEST CIAŁO HOME SCREEN DLA BREAKPOINTOW OD MEDIUM W GÓRE - TOP FILMY -->
 
     <b-row class="d-none d-md-flex topmovies-container">
-      <h1 class="welcome-title">Most popular films today (themoviedb.org)</h1>
+      <h1 class="fav-title">Most popular films today (themoviedb.org)</h1>
 
       <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10">
         <div
@@ -54,13 +54,13 @@
           @click="moviePage(film.id)"
         >
           <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
-          {{ index + 1 }}
+          <span class="movie-rank">{{ index + 1 }}</span>
         </div>
       </b-col>
     </b-row>
 
-    <b-row class="d-none d-md-flex topmovies-container">
-      <h1 class="welcome-title">Most popular films weekly (themoviedb.org)</h1>
+    <b-row class="d-none d-md-flex topmovies-container weekly">
+      <h1 class="fav-title">Most popular films weekly (themoviedb.org)</h1>
 
       <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10">
         <div
@@ -70,7 +70,7 @@
           @click="moviePage(film.id)"
         >
           <img v-bind:src="'https://image.tmdb.org/t/p/original' + film.poster_path" />
-          {{ index + 1 }}
+          <span class="movie-rank">{{ index + 1 }}</span>
         </div>
       </b-col>
     </b-row>
@@ -139,24 +139,31 @@ export default {
 .topmovies-container {
   text-align: left;
   padding-top: 100px;
-  min-height: 75vh;
+  min-height: 85vh;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
   font-family: "Fira Sans Condensed", sans-serif;
 }
+.weekly {
+  padding-top: 0;
+}
 .bottom-space {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 .movie-rank {
-  width: 180px;
-  height: 25px;
-  background-color: rgb(70, 70, 70);
+  width: 60px;
+  height: 50px;
   display: inline-block;
-  margin-top: 1px;
-  margin-left: 2px;
-  margin-right: 5px;
-  margin-bottom: 5px;
   border-radius: 10px;
+  font-size: 40px;
+  text-shadow: 2px 0px 5px rgba(186,186,186,0.7);
+}
+
+.fav-title {
+  padding-left: 5%;
+  background-color: rgba(0, 0, 0, 0.6);
+  margin: 0;
+  width: 99%;
 }
 
 @media screen and (max-width: 424px) {

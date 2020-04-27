@@ -168,7 +168,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.6);
   padding: 0;
   padding-top: 50px;
-  min-width: 99vw;
+  min-width: 98vw;
 }
 
 .btn-filter,
