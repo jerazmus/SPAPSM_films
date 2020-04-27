@@ -17,7 +17,10 @@
             </b-col>
             <b-col class="quarter movie-poster">
               <div class="movie-poster-mobile">
-                <img class="movie-poster-mobile" v-bind:src="'https://image.tmdb.org/t/p/original' + this.poster" />
+                <img
+                  class="movie-poster-mobile"
+                  v-bind:src="'https://image.tmdb.org/t/p/original' + this.poster"
+                />
               </div>
             </b-col>
           </b-row>
@@ -28,34 +31,34 @@
                 <span class="detail-variable">{{ this.movieDuration }}</span>
               </p>
               <p class="detail">
-                Year:
+                Release date:
                 <span class="detail-variable">{{ this.movieYear }}</span>
               </p>
               <p class="detail">
-                Directed by:
-                <span class="detail-variable">{{ this.movieDirector }}</span>
-              </p>
-              <p class="detail">Cast:</p>
-              <p class="detail" v-for="actor in this.cast" v-bind:key="actor.id">
-                <span class="detail-variable">{{ actor }}</span>
+                Genres:
+                <span
+                  v-for="(genre, index) in this.genres"
+                  class="detail-variable"
+                  :key="index"
+                >{{ getGenres(index) }}</span>
               </p>
             </b-col>
             <b-col class="quarter movie-buttons">
               <p class="movie-button-wrapper">
-                <span class="movie-button">
-                  add to favorites
-                  <img src="../assets/heart-before.png" />
+                <span v-if="this.fav" class="movie-button">
+                  remove from favorites
+                  <img @click="removeData()" src="../assets/heart-after.png" />
                 </span>
-              </p>
-              <p class="movie-button-wrapper">
-                <span class="movie-button">
-                  add to watched
-                  <img src="../assets/eye-before.png" />
+                <span v-else class="movie-button">
+                  add to favorites
+                  <img @click="addData()" src="../assets/heart-before.png" />
                 </span>
               </p>
               <p class="rating">Rating:</p>
               <p class="rating-variable-mobile">
-                <span class="rating-variable-mobile">{{ this.movieRating }} ({{this.movieVotes}} votes)</span>
+                <span
+                  class="rating-variable-mobile"
+                >{{ this.movieRating }} ({{this.movieVotes}} votes)</span>
               </p>
               <p class="trailer-wrapper">
                 <span class="trailer">
@@ -90,7 +93,10 @@
               </b-col>
               <b-col class="quarter-desktop movie-poster-desktop-wrapper">
                 <div class="movie-poster-desktop">
-                  <img class="movie-poster-desktop" v-bind:src="'https://image.tmdb.org/t/p/original' + this.poster" />
+                  <img
+                    class="movie-poster-desktop"
+                    v-bind:src="'https://image.tmdb.org/t/p/original' + this.poster"
+                  />
                 </div>
               </b-col>
             </b-row>
@@ -101,23 +107,28 @@
                   <span class="detail-variable-desktop">{{ this.movieDuration }} minutes</span>
                 </p>
                 <p class="detail-desktop">
-                  Year:
+                  Release date:
                   <span class="detail-variable-desktop">{{ this.movieYear }}</span>
                 </p>
                 <p class="detail-desktop">
-                  Directed by:
-                  <span class="detail-variable-desktop">{{ this.movieDirector }}</span>
-                </p>
-                <p class="detail-desktop">Cast:</p>
-                <p class="detail-desktop" v-for="actor in this.cast" v-bind:key="actor.id">
-                  <span class="detail-variable-desktop">{{ actor }}</span>
+                  Genres:
+                  <span
+                    v-for="(genre, index) in this.genres"
+                    class="detail-variable-desktop"
+                    :key="index"
+                  >{{ getGenres(index) }}</span>
                 </p>
               </b-col>
               <b-col class="quarter-desktop">
+                <p class="movie-button-wrapper"></p>
                 <p class="movie-button-wrapper">
-                  <span class="movie-button">
+                  <span v-if="this.fav" class="movie-button">
+                    remove from favorites
+                    <img @click="removeData()" src="../assets/heart-after.png" />
+                  </span>
+                  <span v-else class="movie-button">
                     add to favorites
-                    <img src="../assets/heart-before.png" />
+                    <img @click="addData()" src="../assets/heart-before.png" />
                   </span>
                 </p>
                 <p class="movie-button-wrapper">
@@ -128,7 +139,7 @@
                 </p>
                 <p class="rating">Rating:</p>
                 <p class="rating-variable">
-                  <span class="rating-variable">{{ this.movieRating }}({{this.movieVotes}} votes)</span>
+                  <span class="rating-variable">{{ this.movieRating }} ({{this.movieVotes}} votes)</span>
                 </p>
                 <p class="trailer-wrapper">
                   <span class="trailer">
@@ -147,6 +158,8 @@
 
 <script>
 import Navbar from "./Navbar";
+import firebase from "firebase";
+
 export default {
   data() {
     return {
@@ -157,10 +170,11 @@ export default {
       movieDescription: "",
       movieDuration: "",
       movieYear: "",
-      movieDirector: "",
       poster: ``,
-      cast: [],
-      movieRating: ""
+      movieRating: "",
+      movieVotes: "",
+      genres: [],
+      fav: false
     };
   },
   props: ["title", "year"],
@@ -189,15 +203,63 @@ export default {
           this.movieRating = this.results.vote_average;
           this.movieVotes = this.results.vote_count;
           this.poster = this.results.poster_path;
-        //   console.log(this.results);
+          this.genres = this.results.genres;
+          console.log(this.results);
         })
         .catch(err => console.log("error", err));
+    },
+    getGenres(e) {
+      if (e !== this.genres.length - 1) {
+        return `${this.genres[e].name}, `;
+      } else {
+        return `${this.genres[e].name}`;
+      }
+    },
+    addData() {
+      // dodawanie do bazy danych, testowo działa, dopisać z api dane
+      var user = firebase.auth().currentUser;
+      const uid = user.uid;
+      firebase
+        .database()
+        .ref(`user_films/${uid}/${this.$route.params.filmId}`)
+        .set({
+          filmId: this.$route.params.filmId
+        })
+        .then(() => {
+          this.checkIfExists(this.$route.params.filmId);
+        });
+      this.fav = true;
+    },
+    removeData() {
+      var user = firebase.auth().currentUser;
+      const uid = user.uid;
+      firebase
+        .database()
+        .ref(`user_films/${uid}/${this.$route.params.filmId}`)
+        .remove();
+      this.fav = false;
     }
   },
   mounted() {
     // console.log(this.$route.params.filmId);
     // odpalenie funkcji pobierającej dane od filmu na wejśćiu na podstrone
     this.getApi(this.$route.params.filmId);
+    var user = firebase.auth().currentUser;
+    const uid = user.uid;
+
+    const ref = firebase
+      .database()
+      .ref(`user_films/${uid}/${this.$route.params.filmId}`);
+
+    ref.once("value").then(snapshot => {
+      if (snapshot.child("filmId").exists()) {
+        this.fav = true;
+        // pokaż button usuń rekord
+      } else {
+        this.fav = false;
+        // pokaż button dodaj do ulubionych
+      }
+    });
   }
 };
 </script>
@@ -284,7 +346,7 @@ export default {
 
 .detail-desktop {
   margin: 0;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .detail-variable-desktop {
@@ -417,7 +479,7 @@ export default {
 .rating-variable {
   text-align: center;
   margin-top: 10px;
-  font-size: 60px;
+  font-size: 30px;
   color: rgba(255, 255, 255, 0.61);
 }
 

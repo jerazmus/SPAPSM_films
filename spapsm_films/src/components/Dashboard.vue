@@ -57,8 +57,6 @@
         </b-row>
       </b-col>
     </b-row>
-    <button @click="testingButton">click</button>
-    <p>{{ results }}</p> -->
   </b-container>
 </template>
 
@@ -72,7 +70,6 @@ export default {
       appTitle: "Film Nation",
       username: null,
       apiLink: "https://api.themoviedb.org/3/",
-      filmId: "157336",
       results: []
     };
   },
@@ -80,41 +77,30 @@ export default {
     Navbar
   },
   methods: {
-    // addData() {
-    //   // dodawanie do bazy danych, testowo działa, dopisać z api dane
-    //   var user = firebase.auth().currentUser;
-    //   const uid = user.uid
-    //   firebase.database().ref(`user_films/${uid}`).push({
-    //     uid: uid,
-    //     name: user.displayName
-    //   }).then(data => {
-    //     console.log(data)
-    //   })
-    // },
+    // testingButton() {
+    //   // wydobywanie filmów z api przez axios
+    //   // zaczynamy requesta this.$http.get(link_do_api).then(co_robimy_z_danymi)
+    //   // PONIŻEJ dla filmu Interstellar
 
-
-    testingButton() {
-      // wydobywanie filmów z api przez axios
-      // zaczynamy requesta this.$http.get(link_do_api).then(co_robimy_z_danymi)
-      // PONIŻEJ dla filmu Interstellar
-
-      console.log(`${this.apiLink}/movie/${this.filmId}?api_key=f2bdee8336da34398a99b1ea328805d8`)
-      this.$http
-        .get(
-          `${this.apiLink}movie/${this.filmId}?api_key=f2bdee8336da34398a99b1ea328805d8`
-        )
-        .then(response => {
-          this.results = response.data;
-          console.log(this.results)
-          console.log(`Film id: ${this.results.id} `);
-          console.log(`Film title: ${this.results.title} `);
-          console.log(`Film poster path: ${this.results.poster_path} `);
-          console.log(`Film release date: ${this.results.release_date} `);
-          console.log(`Film vote_avg: ${this.results.vote_average} `);
-          console.log(`Film vote_number: ${this.results.vote_count} `);
-          // poster path: image.tmdb.org/t/p/original/${this.results.poster_path}
-        });
-    }
+    //   console.log(
+    //     `${this.apiLink}/movie/${this.filmId}?api_key=f2bdee8336da34398a99b1ea328805d8`
+    //   );
+    //   this.$http
+    //     .get(
+    //       `${this.apiLink}movie/${this.filmId}?api_key=f2bdee8336da34398a99b1ea328805d8`
+    //     )
+    //     .then(response => {
+    //       this.results = response.data;
+    //       console.log(this.results);
+    //       console.log(`Film id: ${this.results.id} `);
+    //       console.log(`Film title: ${this.results.title} `);
+    //       console.log(`Film poster path: ${this.results.poster_path} `);
+    //       console.log(`Film release date: ${this.results.release_date} `);
+    //       console.log(`Film vote_avg: ${this.results.vote_average} `);
+    //       console.log(`Film vote_number: ${this.results.vote_count} `);
+    //       // poster path: image.tmdb.org/t/p/original/${this.results.poster_path}
+    //     });
+    // }
   },
   mounted() {
     // https://developers.themoviedb.org/3/getting-started/introduction
@@ -147,7 +133,7 @@ export default {
 .sample-movie {
   width: 180px;
   height: 256px;
-  background-color: grey;
+  /* background-color: grey; */
   display: inline-block;
   margin-left: 10px;
   margin-right: 5px;

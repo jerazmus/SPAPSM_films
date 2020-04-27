@@ -69,9 +69,6 @@
                 <button @click="socialGoogleLogin" class="social-button">
                   <img alt="Google Logo" src="../assets/google.png" />
                 </button>
-                <button @click="socialFacebookLogin" class="social-button">
-                  <img alt="FB Logo" src="../assets/facebook.png" />
-                </button>
               </div>
             </div>
                   
@@ -150,9 +147,6 @@
               <br />
               <button @click="socialGoogleLogin" class="social-button">
                 <img alt="Google Logo" src="../assets/google.png" />
-              </button>
-              <button @click="socialFacebookLogin" class="social-button">
-                <img alt="FB Logo" src="../assets/facebook.png" />
               </button>
             </div>
           </div>
@@ -273,21 +267,6 @@ export default {
     },
     socialGoogleLogin() {
       const ggl = new firebase.auth.GoogleAuthProvider();
-
-      firebase
-        .auth()
-        .signInWithPopup(ggl)
-        .then(user => {
-          console.log(user);
-          alert(`Logged as ${user.user.email}`);
-          this.$router.push({ path: "/dashboard" });
-        })
-        .catch(err => {
-          alert("error: " + err.message);
-        });
-    },
-    socialFacebookLogin() {
-      const ggl = new firebase.auth.FacebookAuthProvider();
 
       firebase
         .auth()
