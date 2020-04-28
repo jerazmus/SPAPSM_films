@@ -9,19 +9,27 @@
           <h2>Favorite movies</h2>
           <b-row>
             <b-col class="favorite-mobile">
-              <div class="sample-movie-mobile"></div>
-              <div class="sample-movie-mobile"></div>
-              <div class="sample-movie-mobile"></div>
-              <div class="sample-movie-mobile"></div>
+               <div
+              v-for="(item,index) in this.getFavouritesId"
+              :key="index.key"
+              class="sample-movie"
+              @click="moviePage(item.filmId)"
+            >
+              <img v-bind:src="'https://image.tmdb.org/t/p/original' + item.poster_path" />
+            </div>
             </b-col>
           </b-row>
           <h2>Recently watched</h2>
           <b-row>
             <b-col class="watched-mobile">
-              <div class="sample-movie-mobile"></div>
-              <div class="sample-movie-mobile"></div>
-              <div class="sample-movie-mobile"></div>
-              <div class="sample-movie-mobile"></div>
+               <div
+              v-for="item in this.getWatchedId"
+              :key="item.key"
+              class="sample-movie"
+              @click="moviePage(item.filmId)"
+            >
+              <img v-bind:src="'https://image.tmdb.org/t/p/original' + item.poster_path" />
+            </div>
             </b-col>
           </b-row>
         </b-col>
@@ -36,23 +44,27 @@
         <b-row class="d-none d-md-flex dashboard-container-favorite">
           <b-col class="favorited" xs="12" sm="12" md="12" lg="12" xl="12">
             <h2>Favorite movies</h2>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
+            <div
+              v-for="(item,index) in this.getFavouritesId"
+              :key="index.key"
+              class="sample-movie"
+              @click="moviePage(item.filmId)"
+            >
+              <img v-bind:src="'https://image.tmdb.org/t/p/original' + item.poster_path" />
+            </div>
           </b-col>
         </b-row>
         <b-row class="d-none d-md-flex dashboard-container-watched">
           <b-col class="watched" xs="12" sm="12" md="12" lg="12" xl="12">
             <h2>Recently watched</h2>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
-            <div class="sample-movie"></div>
+            <div
+              v-for="item in this.getWatchedId"
+              :key="item.key"
+              class="sample-movie"
+              @click="moviePage(item.filmId)"
+            >
+              <img v-bind:src="'https://image.tmdb.org/t/p/original' + item.poster_path" />
+            </div>
           </b-col>
         </b-row>
       </b-col>
@@ -70,44 +82,47 @@ export default {
       appTitle: "Film Nation",
       username: null,
       apiLink: "https://api.themoviedb.org/3/",
-      results: []
+      results: [],
+      getFavouritesId: [],
+      getWatchedId: []
     };
   },
   components: {
     Navbar
   },
   methods: {
-    // testingButton() {
-    //   // wydobywanie filmów z api przez axios
-    //   // zaczynamy requesta this.$http.get(link_do_api).then(co_robimy_z_danymi)
-    //   // PONIŻEJ dla filmu Interstellar
-
-    //   console.log(
-    //     `${this.apiLink}/movie/${this.filmId}?api_key=f2bdee8336da34398a99b1ea328805d8`
-    //   );
-    //   this.$http
-    //     .get(
-    //       `${this.apiLink}movie/${this.filmId}?api_key=f2bdee8336da34398a99b1ea328805d8`
-    //     )
-    //     .then(response => {
-    //       this.results = response.data;
-    //       console.log(this.results);
-    //       console.log(`Film id: ${this.results.id} `);
-    //       console.log(`Film title: ${this.results.title} `);
-    //       console.log(`Film poster path: ${this.results.poster_path} `);
-    //       console.log(`Film release date: ${this.results.release_date} `);
-    //       console.log(`Film vote_avg: ${this.results.vote_average} `);
-    //       console.log(`Film vote_number: ${this.results.vote_count} `);
-    //       // poster path: image.tmdb.org/t/p/original/${this.results.poster_path}
-    //     });
-    // }
+    getFavourites(id) {
+      firebase
+        .database()
+        .ref(`user_films/${id}`)
+        .on("value", snapshot => {
+          snapshot.forEach(item => {
+            this.getFavouritesId.push(item.val());
+          });
+        });
+    },
+    getWatched(id) {
+      firebase
+        .database()
+        .ref(`user_watched/${id}`)
+        .on("value", snapshot => {
+          snapshot.forEach(item => {
+            this.getWatchedId.push(item.val());
+          });
+        });
+    },
+    moviePage(num) {
+      this.$router.push({
+        name: "Movie",
+        params: { filmId: num }
+      });
+    }
   },
   mounted() {
-    // https://developers.themoviedb.org/3/getting-started/introduction
-    // api key = f2bdee8336da34398a99b1ea328805d8
-    // przykladowy link: tutaj_wstaw_link?api_key=f2bdee8336da34398a99b1ea328805d8
-    // API READ ACCESS TOKEN (gdyby byl potrzebny)
-    // eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMmJkZWU4MzM2ZGEzNDM5OGE5OWIxZWEzMjg4MDVkOCIsInN1YiI6IjVlOWViZGRkZDA1YTAzMDAyMGJlMjY5YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Oz-xeuDFfKogCNwcIEXOBq1TLCS8pncWQqxFyHcZvDU
+    var user = firebase.auth().currentUser;
+    const uid = user.uid;
+    this.getFavourites(uid);
+    this.getWatched(uid);
   },
   created() {
     var user = firebase.auth().currentUser;
@@ -133,7 +148,7 @@ export default {
 .sample-movie {
   width: 180px;
   height: 256px;
-  /* background-color: grey; */
+  background-color: grey;
   display: inline-block;
   margin-left: 10px;
   margin-right: 5px;

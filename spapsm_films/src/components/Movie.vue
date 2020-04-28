@@ -237,10 +237,11 @@ export default {
         .database()
         .ref(`user_films/${uid}/${this.$route.params.filmId}`)
         .set({
-          filmId: this.$route.params.filmId
+          filmId: this.$route.params.filmId,
+          poster_path: this.poster 
         })
         .then(() => {
-          this.checkIfExists(this.$route.params.filmId);
+          // this.checkIfExists(this.$route.params.filmId);
         });
       this.fav = true;
     },
@@ -260,11 +261,9 @@ export default {
         .database()
         .ref(`user_watched/${uid}/${this.$route.params.filmId}`)
         .set({
-          filmId: this.$route.params.filmId
+          filmId: this.$route.params.filmId,
+          poster_path: this.poster 
         })
-        .then(() => {
-          this.checkIfExists(this.$route.params.filmId);
-        });
       this.watched = true
     },
     removeWatched() {

@@ -44,13 +44,6 @@
           ></b-form-input>
           <b-button @click="search" class="btn-search">SEARCH</b-button>
         </b-form-group>
-        <!-- <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>
-        <b-button class="btn-filter">FILTER</b-button>-->
       </b-col>
 
       <b-col
