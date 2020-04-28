@@ -70,10 +70,10 @@
                   class="rating-variable-mobile"
                 >{{ this.movieRating }} ({{this.movieVotes}} votes)</span>
               </p>
-              <p class="trailer-wrapper">
+              <p class="trailer-wrapper" @click="openYoutube">
                 <span class="trailer">
                   TRAILER
-                  <img src="../assets/yt.png" />
+                  <img src="../assets/yt.png"/>
                 </span>
               </p>
             </b-col>
@@ -279,16 +279,12 @@ export default {
     openYoutube(){
       var movieTitle = this.movieTitle;
       var movieYear = (this.movieYear).substring(0,4);
-      console.log(typeof movieYear);
 
       var url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=relevance&q=`+ movieTitle + ` ` + movieYear + `trailer&key=AIzaSyDrLjC6UBbwFp9Jgpajx8Z5qyo93ylWpXg`;
-      console.log(url);
       fetch(url)
         .then(response => response.json())
         .then((data) => {
-            console.log(data.items);
             var site = 'https://youtube.com/watch?v='+data.items[0].id.videoId;
-            console.log(site);
             window.open(site);
         }).catch(err => console.error(err));
     }
