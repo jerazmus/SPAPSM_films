@@ -6,6 +6,7 @@ import Search from '../components/Search'
 import TopMovies from '../components/TopMovies'
 import Randomizer from '../components/Randomizer'
 import Account from '../components/Account'
+import Movie from '../components/Movie'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -55,6 +56,14 @@ const router = new Router({
           path: '/account',
           name: 'Account',
           component: Account,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/movie/:filmId',
+          name: 'Movie',
+          component: Movie,
           meta: {
             requiresAuth: true
           }
