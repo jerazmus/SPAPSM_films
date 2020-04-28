@@ -70,10 +70,10 @@
                   class="rating-variable-mobile"
                 >{{ this.movieRating }} ({{this.movieVotes}} votes)</span>
               </p>
-              <p class="trailer-wrapper">
+              <p class="trailer-wrapper" @click="openYoutube">
                 <span class="trailer">
                   TRAILER
-                  <img src="../assets/yt.png" />
+                  <img src="../assets/yt.png"/>
                 </span>
               </p>
             </b-col>
@@ -154,10 +154,10 @@
                 <p class="rating-variable">
                   <span class="rating-variable">{{ this.movieRating }} ({{this.movieVotes}} votes)</span>
                 </p>
-                <p class="trailer-wrapper">
+                <p class="trailer-wrapper" @click="openYoutube">
                   <span class="trailer">
                     TRAILER
-                    <img src="../assets/yt.png" />
+                    <img src="../assets/yt.png"/>
                   </span>
                 </p>
               </b-col>
@@ -274,6 +274,18 @@ export default {
         .ref(`user_watched/${uid}/${this.$route.params.filmId}`)
         .remove();
       this.watched = false
+    },
+    openYoutube(){
+      var movieTitle = this.movieTitle;
+      var movieYear = (this.movieYear).substring(0,4);
+
+      var url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=relevance&q=`+ movieTitle + ` ` + movieYear + `trailer&key=AIzaSyDrLjC6UBbwFp9Jgpajx8Z5qyo93ylWpXg`;
+      fetch(url)
+        .then(response => response.json())
+        .then((data) => {
+            var site = 'https://youtube.com/watch?v='+data.items[0].id.videoId;
+            window.open(site);
+        }).catch(err => console.error(err));
     }
   },
   mounted() {
