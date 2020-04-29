@@ -14,7 +14,7 @@
           <b-row class="account-details">
             <div class="form-sign">
               <br>
-              <p> <img id="avatar_mobile" alt="200x200" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;" > </p>
+              <p><img id="avatar_mobile" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;"></p>
               <p>Username: <span class="account-info-text">{{ name }}</span></p>
               <p>Email: <span class="account-info-text">{{ email }}</span></p>
               <form action="#" @submit.prevent="updatePassword" id="acc-form">
@@ -61,7 +61,7 @@
             
             <div class="form-sign">
               <br>
-              <p> <img id="avatar_desktop" alt="200x200" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;" > </p>
+              <p><img id="avatar_desktop" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;"></p>
               <p>Username: <span class="account-info-text">{{ name }}</span></p>
               <p>Email: <span class="account-info-text">{{ email }}</span></p>
               <form action="#" @submit.prevent="updatePassword">
@@ -147,15 +147,13 @@ export default {
 
       storageRef.put(file);
 
-      // console.log(e.target.files[0]);
+      this.$router.push("/dashboard")
     },
     avatarLoad(){
       var user = firebase.auth().currentUser;
       this.uid = user.uid;
-      console.log(this.uid);
       
       var storageReference = firebase.storage();
-      console.log(storageReference);
 
       storageReference.ref('avatars/'+this.uid).getDownloadURL().then(function(url) {
         document.getElementById("avatar_mobile").src = url;
