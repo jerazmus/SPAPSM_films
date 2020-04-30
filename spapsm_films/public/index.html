@@ -6,10 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:300,400,500&display=swap" rel="stylesheet">
+  <link rel="manifest" href="/manifest.json" />
   <title>Film Nation</title>
 </head>
 
 <body>
   <div id="app"></div>
+
+  <noscript>This website requires JavaScript. To contact us, please send us an email at: <a href="mailto:email@example.com">email@example.com</a></noscript>
+  <script>
+    if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(function () { console.log("Service Worker Registered, Cheers to PWA Fire!"); });
+            }
+            );
+        }
+  </script>
 </body>
 </html>
