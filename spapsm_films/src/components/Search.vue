@@ -97,9 +97,9 @@ export default {
     search() {
       // this.clearResults();
       this.searchBool = true;
-      console.log(this.searchBool);
-      console.log(this.searchTextInput);
-      console.log(this.fixTextInput());
+      // console.log(this.searchBool);
+      // console.log(this.searchTextInput);
+      // console.log(this.fixTextInput());
       //łączenie z api przez axios
 
       this.$http
@@ -112,7 +112,7 @@ export default {
           //sprawdzenie czy istnieje dana fraza w bazie, jeśli nie to alert
           if (response.data.total_results != 0) {
             this.results = response.data.results;
-            console.log(this.results);
+            // console.log(this.results);
           } else {
             alert("Nie ma takiego filmu w bazie");
           }

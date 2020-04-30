@@ -7,7 +7,7 @@
         <b-col class="main-form" xs="12" sm="12" md="6" lg="6" xl="6">
           <b-row>
             <b-col class="search-results">
-              <div v-if="clicked" class="sample-movie bottom-space" @click="moviePage(generatedId)">
+              <div v-if="clicked" class="randomizer-movie-mobile bottom-space" @click="moviePage(generatedId)">
                 <img v-bind:src="'https://image.tmdb.org/t/p/original' + poster_path" />
               </div>
               <br />
@@ -22,7 +22,7 @@
 
     <b-row class="d-none d-md-flex random-container">
       <b-col class="search-results" xs="12" sm="12" md="10" lg="10" xl="10">
-        <div v-if="clicked" class="sample-movie bottom-space" @click="moviePage(generatedId)">
+        <div v-if="clicked" class="randomizer-movie-desktop bottom-space" @click="moviePage(generatedId)">
           <img v-bind:src="'https://image.tmdb.org/t/p/original' + poster_path" />
         </div>
         <br />
@@ -70,7 +70,6 @@ export default {
 
       this.$http.get(linkApi).then(response => {
         let film = response.data.results[random(0, 20)];
-        console.log(film);
         if (film.poster_path == null) {
           this.getAMovie();
         } else {
@@ -118,5 +117,39 @@ export default {
 
 .btn-random {
   background-color: transparent;
+}
+
+.randomizer-movie-desktop {
+  width: 400px;
+  height: 550px;
+  background-color: grey;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.randomizer-movie-desktop img {
+  width: 400px;
+  height: 550px;
+  border-radius: 10px;
+}
+
+.randomizer-movie-mobile {
+  width: 250px;
+  height: 400px;
+  background-color: grey;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.randomizer-movie-mobile img {
+  width: 250px;
+  height: 400px;
+  border-radius: 10px;
 }
 </style>

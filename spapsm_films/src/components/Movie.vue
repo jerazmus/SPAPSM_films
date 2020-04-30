@@ -212,13 +212,11 @@ export default {
           this.movieDescription = this.results.overview;
           this.movieDuration = this.results.runtime;
           this.movieYear = this.results.release_date;
-          //   this.movieDirector
-          // this.cast
           this.movieRating = this.results.vote_average;
           this.movieVotes = this.results.vote_count;
           this.poster = this.results.poster_path;
           this.genres = this.results.genres;
-          console.log(this.results);
+          // console.log(this.results);
         })
         .catch(err => console.log("error", err));
     },

@@ -257,11 +257,11 @@ export default {
           this.form_login.password
         )
         .then(() => {
-          alert("signed!");
+          alert("Logged in successfully!");
           this.$router.replace({ path: "/dashboard" });
         })
         .catch(err => {
-          alert("wrong credentials");
+          alert("Wrong credentials! Please, try again.");
           this.error = err.message;
         });
     },
@@ -272,7 +272,7 @@ export default {
         .auth()
         .signInWithPopup(ggl)
         .then(user => {
-          console.log(user);
+          // console.log(user);
           alert(`Logged as ${user.user.email}`);
           this.$router.push({ path: "/dashboard" });
         })

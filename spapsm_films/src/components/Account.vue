@@ -17,7 +17,7 @@
               <p><img id="avatar_mobile" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;"></p>
               <p>Username: <span class="account-info-text">{{ name }}</span></p>
               <p>Email: <span class="account-info-text">{{ email }}</span></p>
-              <form action="#" @submit.prevent="updatePassword" id="acc-form">
+              <form action="#" @submit.prevent="updatePassword" id="acc-form" v-if="this.provider == 'password'">
                 <b-form-group label="New password:" label-for="new_pwd">
                   <b-form-input id="new_pwd" type="password" v-model="pwd"></b-form-input>
                 </b-form-group>
@@ -64,7 +64,7 @@
               <p><img id="avatar_desktop" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;"></p>
               <p>Username: <span class="account-info-text">{{ name }}</span></p>
               <p>Email: <span class="account-info-text">{{ email }}</span></p>
-              <form action="#" @submit.prevent="updatePassword">
+              <form action="#" @submit.prevent="updatePassword" id="acc-form-desktop" v-if="this.provider == 'password'"> 
                 <b-form-group label="New password:" label-for="new_pwd">
                   <b-form-input id="new_pwd" type="password" v-model="pwd"></b-form-input>
                 </b-form-group>
@@ -121,15 +121,15 @@ export default {
   methods: {
     updatePassword() {
       if (this.pwd != null && this.pwd == this.pwdChk) {
-        console.log("ok");
         var user = firebase.auth().currentUser;
         var accForm = document.getElementById("acc-form")
+        var accFormDesktop = document.getElementById("acc-form-desktop")
         user
           .updatePassword(this.pwd)
           .then(function() {
-            console.log("Password changed!");
-            alert('Password changed!')
             accForm.reset()
+            accFormDesktop.reset()
+            alert('Password changed!')
           })
           .catch(function(error) {
             console.log(`Error: ${error}`);
@@ -167,20 +167,17 @@ export default {
     this.name = user.displayName;
     this.uid = user.uid;
     this.email = user.email;
-
-    //odczyt danych zalogowanego usera
-    user.providerData.forEach(function(profile) {
-      console.log("Sign-in provider: " + profile.providerId);
-      console.log("  Provider-specific UID: " + profile.uid);
-      console.log("  Name: " + profile.displayName);
-      console.log("  Email: " + profile.email);
-      console.log("  Photo URL: " + profile.photoURL);
-    });
     this.avatarLoad();
+  },
+  mounted() {
+    var user = firebase.auth().currentUser;
+    user.providerData.forEach(profile => {
+      this.provider = profile.providerId;
+    })
   }
 };
 </script>
-
+  
 <style>
 .account-container {
   text-align: left;
