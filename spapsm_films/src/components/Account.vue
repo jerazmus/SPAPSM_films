@@ -13,6 +13,8 @@
           </b-row>
           <b-row class="account-details">
             <div class="form-sign">
+              <br>
+              <p><img id="avatar_mobile" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;"></p>
               <p>Username: <span class="account-info-text">{{ name }}</span></p>
               <p>Email: <span class="account-info-text">{{ email }}</span></p>
               <form action="#" @submit.prevent="updatePassword" id="acc-form">
@@ -30,6 +32,15 @@
 
                 <b-button type="submit" variant="outline-light">Change password</b-button>
               </form>
+              <br>
+                <b-form-file
+                  placeholder="Choose avatar"
+                  drop-placeholder="Drop avatar here..."
+                  accept="image/*"
+                  @change="avatarUpload"
+                ></b-form-file>
+              <br>
+              <br>
             </div>
           </b-row>
         </b-col>
@@ -47,7 +58,10 @@
         </b-row>
         <b-row>
           <b-col class="account-details" xs="12" sm="12" md="4" lg="4" xl="4">
+            
             <div class="form-sign">
+              <br>
+              <p><img id="avatar_desktop" class="rounded-circle mx-auto d-block" style="width:200px;height:200px;object-fit:cover;"></p>
               <p>Username: <span class="account-info-text">{{ name }}</span></p>
               <p>Email: <span class="account-info-text">{{ email }}</span></p>
               <form action="#" @submit.prevent="updatePassword">
@@ -65,8 +79,19 @@
 
                 <b-button type="submit" variant="outline-light">Change password</b-button>
               </form>
+              <br>
+              <b-form-file
+                placeholder="Choose avatar"
+                drop-placeholder="Drop avatar here..."
+                accept="image/*"
+                @change="avatarUpload"
+              ></b-form-file>
+              <br>
+              <br>
             </div>
           </b-col>
+        </b-row>
+        <b-row>
         </b-row>
       </b-col>
     </b-row>
@@ -110,6 +135,31 @@ export default {
             console.log(`Error: ${error}`);
           });
       }
+    },
+    avatarUpload(e){
+      
+      var user = firebase.auth().currentUser;
+      this.uid = user.uid;
+
+      let file = e.target.files[0];
+
+      var storageRef = firebase.storage().ref('/avatars/'+ this.uid);
+
+      storageRef.put(file);
+
+      this.$router.push("/dashboard")
+    },
+    avatarLoad(){
+      var user = firebase.auth().currentUser;
+      this.uid = user.uid;
+      
+      var storageReference = firebase.storage();
+
+      storageReference.ref('avatars/'+this.uid).getDownloadURL().then(function(url) {
+        document.getElementById("avatar_mobile").src = url;
+        document.getElementById("avatar_desktop").src = url;
+      })
+
     }
   },
   created() {
@@ -126,6 +176,7 @@ export default {
       console.log("  Email: " + profile.email);
       console.log("  Photo URL: " + profile.photoURL);
     });
+    this.avatarLoad();
   }
 };
 </script>
