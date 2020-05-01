@@ -7,6 +7,7 @@ import * as firebase from 'firebase/app'
 import router from "./routes/index";
 import store from "./store"
 import axios from 'axios'
+import './registerServiceWorker'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
